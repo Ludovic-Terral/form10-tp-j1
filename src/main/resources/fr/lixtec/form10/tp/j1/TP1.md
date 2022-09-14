@@ -2,37 +2,37 @@
 
 ## Exercice 1
 
-On représente un ascenseur dans un système à l’aide d’une classe. La classe Ascenseur doit disposer de la méthode publique getEtage() qui retourne le numéro de l’étage auquel se trouve l’ascenseur. Si l’ascenseur est au rez-de-chaussée, la méthode retourne 0.
+On reprÃ©sente un ascenseur dans un systÃ¨me Ã  l'aide d'une classe. La classe Ascenseur doit disposer de la mÃ©thode publique getEtage() qui retourne le numÃ©ro de l'Ã©tage auquel se trouve l'ascenseur. Si l'ascenseur est au rez-de-chaussÃ©e, la mÃ©thode retourne 0.
 
-La classe Ascenseur a également la méthode appeler(int etage) qui sert à appeler l’ascenseur à un étage donné. Cette méthode a pour conséquence d’amener l’ascenseur à l’étage donné.
+La classe Ascenseur a Ã©galement la mÃ©thode appelerDepuis(int etage) qui sert Ã  appeler l'ascenseur Ã  un Ã©tage donnÃ©. Cette mÃ©thode a pour consÃ©quence d'amener l'ascenseur Ã  l'Ã©tage donnÃ©.
 
 **La sortie standard affiche les mouvements de l'ascenceur**
 
-Implémentez la classe Ascenseur. Ajoutez dans la classe une méthode :
+ImplÃ©mentez la classe Ascenseur. Ajoutez dans la classe une mÃ©thode :
 
     public static void main(String[] args) {
     }
 
-Dans la méthode main, créez un objet de type Ascenseur et appelez ses méthodes. Après chaque appel, affichez l'évolution de l’ascenseur. 
+Dans la mÃ©thode main, crÃ©ez un objet de type Ascenseur et appelez ses mÃ©thodes. AprÃ¨s chaque appel, affichez l'Ã©volution de l'ascenseur. 
 
 
 ## Exercice 2
 
-On souhaite créer une classe BoiteDeVitesses pour représenter une boite de vitesses. Cette classe contient les méthodes :
+On souhaite crÃ©er une classe BoiteDeVitesses pour reprÃ©senter une boite de vitesses. Cette classe contient les mÃ©thodes :
 
-**monterRapport()**
-Pour passer à la vitesse supérieure
+**changerVitesse()**
+Pour changer de vitesse
 
 **retrograder()**
-Pour passer à la vitesse inférieure
+Pour passer Ã  la vitesse infÃ©rieure
 
 **getVitesse()**
-Pour donner la vitesse courante (null représente le point mort)
+Pour donner la vitesse courante (0 reprÃ©sente le point mort)
 
-Implémentez la classe BoiteDeVitesses. Ajoutez dans la classe une méthode :
+ImplÃ©mentez la classe BoiteDeVitesses. Ajoutez dans la classe une mÃ©thode :
 
     public static void main(String[] args) {
     }
     
-Dans la méthode main, vous allez simuler une voiture qui fait un run sur 400m départ arrêté. Pour cela, créez une instance de type BoiteDeVitesses et simuler l'accélaration jusqu'en 6e avant de revenir au point mort. 
-Après chaque changement de vitesse, affichez sur la sortie standard le numéro de la vitesse courante.
+Dans la mÃ©thode main, vous allez simuler une voiture qui fait un run sur 400m dÃ©part arrÃªtÃ©. Pour cela, crÃ©ez une instance de type BoiteDeVitesses et simuler l'accÃ©laration jusqu'en 6e avant de revenir au point mort. 
+AprÃ¨s chaque changement de vitesse, affichez sur la sortie standard le numÃ©ro de la vitesse courante.
