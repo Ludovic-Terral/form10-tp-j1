@@ -26,7 +26,7 @@ Apres chaque changement de vitesse, affichez sur une meme ligne de la sortie sta
 
 ## Exercice 2
 
-On souhaite créer les classes MoteurEssence et MoteurDiesel pour représenter les moteurs a explosion. Ces classes contiennent les méthodes :
+On souhaite créer les classes MoteurEssence et MoteurDiesel pour représenter les moteurs à explosion. Ces classes contiennent les méthodes :
 
 **accelerer()**
 Pour augmenter le régime
@@ -55,7 +55,7 @@ Le plan de test consiste:
 Pour etre réussi, le test doit etre reproduit 10 fois. 
 
 
-* Implémentez la classe BancTest et les différentes classes de MoteurExplosion. Par ailleurs, il arrive que ce plan de test provoque la rupture du moteur. Trouver le moyen de matérialiser cet évenement. La sortie standard affichera le régime moteur et la consommation.
+**Implémentez la classe BancTest et les différentes classes de MoteurExplosion. Par ailleurs, il arrive que ce plan de test provoque la rupture du moteur. Trouver le moyen de matérialiser cet évenement. La sortie standard affichera le régime moteur et la consommation.**
 
 
 ## Exercice 3
@@ -95,7 +95,7 @@ Ajouter la méthode main suivante pour tester votre classe :
     }
 
 ## Exercice 4
-On souhaite implémenter le code de Francois en utilisant le code ci-dessous. Cet algorithme de chiffrement classique, utilisé par Francois 1er dans ses correspondances secretes, se base sur le principe du décalage. Une lettre est remplacée par son équivalent dans l’alphabet en effectuant un décalage. Le programme ci-dessous utilise un décalage. Cela donne comme équivalence :
+On souhaite implémenter le code de Francois 1er en utilisant le code ci-dessous. Cet algorithme de chiffrement classique, utilisé par Francois 1er dans ses correspondances secrètes, se base sur le principe du décalage. Une lettre est remplacée par son équivalent dans l’alphabet en effectuant un décalage. Le programme ci-dessous utilise un décalage. Cela donne comme équivalence :
 
 <table class="hlist"><tbody><tr><td><ul class="simple">
 <li><p>a → x</p></li>
