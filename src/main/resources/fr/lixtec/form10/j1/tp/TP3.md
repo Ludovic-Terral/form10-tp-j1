@@ -16,7 +16,7 @@ Au début du jeu, chaque joueur place à sa guise tous les navires sur sa grille
 Une fois tous les vaisseaux en jeu, la partie peut commencer.. Un à un, les joueurs se tire dessus avec des phasers pour détruire les navires ennemis.
 
 
-> Exemple: le joueur dit a voit haute H7 correspondant à la case au croisement de la lettre H et du numéro 7 sur les côtés des grilles.
+> Exemple: le joueur dit à haute voix H7 correspondant à la case au croisement de la lettre H et du numéro 7 sur les côtés des grilles.
 
 Si un joueur tire sur un navire ennemi, l’adversaire doit le signaler en disant « touché ». Il peut pas jouer deux fois de suite et doit attendre le tour de l’autre joueur.
 Si le joueur ne touche pas de navire, l’adversaire le signale en disant « raté » .
