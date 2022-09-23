@@ -1,19 +1,21 @@
 # TP 3 - Création d'un jeu de bataille galactique
 
+>**Le TP devra être encodé en UTF-8 pour faciliter la correction.**
+
 Ce jeu de société se joue à deux, l’un contre l’autre sur deux grilles où sont placés 5 vaisseaux mis en place par les joueurs.
 
 Le but étant de détruire tous les vaisseaux de l’adversaire. C’est à la fois un jeu de réflexion et un jeu de hasard.
 
 Pour jouer à la bataille galactique, il faut par joueur :
 * Une grille de jeu numérotée de 1 à 10 horizontalement et de A à H verticalement 
-* 1 vaisseau de classe universe (3*2 cases)
+* 1 vaisseau de classe Universe (3*2 cases)
 * 1 vaisseau de classe Sovereign (2*2 cases)
 * 1 vaisseau de classe Ambassadeur(3*1 cases)
 * 1 vaisseau de classe Constitution(3*1 cases)
 * 1 navette (2*1 cases)
 
-Au début du jeu, chaque joueur place à sa guise tous les navires sur sa grille de façon stratégique. Le but étant de compliquer au maximum la tache de son adversaire, c’est-à-dire détruire tous vos navires. Bien entendu, le joueur ne voit pas la grille de son adversaire.
-Une fois tous les vaisseaux en jeu, la partie peut commencer.. Un à un, les joueurs se tire dessus avec des phasers pour détruire les navires ennemis.
+Au début du jeu, chaque joueur place à sa guise tous les navires sur sa grille de façon stratégique (vertical ou horizontal). Le but étant de compliquer au maximum la tache de son adversaire, c’est-à-dire détruire tous vos navires. Bien entendu, le joueur ne voit pas la grille de son adversaire.
+Une fois tous les vaisseaux en jeu, la partie peut commencer.. Un à un, les joueurs se tire dessus avec des phasers pour détruire les vaisseaux ennemis.
 
 
 > Exemple: le joueur dit à haute voix H7 correspondant à la case au croisement de la lettre H et du numéro 7 sur les côtés des grilles.
@@ -38,11 +40,13 @@ A l'issu du tir, le joueur devra:
 Au début de chaque tour, l'application devra afficher l'état de la flotte et de chaque unité.
 ex: 
 
-        Flotte à 50% (pourcentage de cases restantes)
-        - vaisseau de classe universe situé [A3, A5, B5, B3] opérationnel à 80% (pourcentage de cases restantes)
-        - vaisseau de classe Sovereign situé [A3, A4, B4, B3] opérationnel à 100% (pourcentage de cases restantes)
-        - vaisseau de classe Ambassadeur situé [A4, A1] opérationnel à 100% (pourcentage de cases restantes)
+        Flotte opérationnelle à à 50%
+        - vaisseau de classe universe opérationnel à 80%
+        - vaisseau de classe Sovereign opérationnel à 100%
+        - vaisseau de classe Ambassadeur opérationnel à 100% 
         - vaisseau de classe Constitution desintégré 
         - navette desintégrée
+Le pourcentage correspond au nombre de cases restantes.
+Il y aura ensuite l'affichage des grilles de tir et de flotte en côte à côte.
 
 Enfin le jeu affichera le nom du joueur gagnant lorsqu'une des flottes est anéantie.

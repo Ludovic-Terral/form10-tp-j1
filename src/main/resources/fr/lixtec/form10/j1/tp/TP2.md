@@ -1,64 +1,6 @@
 # TP 2
 
 ## Exercice 1
-
-On souhaite créer une classe BoiteDeVitesses pour représenter une boite de vitesses. Cette classe contient les méthodes :
-
-**changerVitesse()**
-Pour passer une vitesse donnée. Il n’est pas possible d’aller au delà de la cinquième vitesse (dans ce cas, un appel a la méthode doit être sans effet).
-
-**retrograder()**
-Pour passer a la vitesse inférieure. Il n’est pas possible de rétrograder en dessous de la premiere (dans ce cas, un appel a la méthode doit être sans effet).
-
-**setPointMort()**
-Pour aller au point mort.
-
-**getVitesse()**
-Pour donner la vitesse courante (null représente le point mort)
-
-**toString()**
-Pour retourner une chaîne de caracteres (String). Si la vitesse vaut null, la méthode retourne « point mort ». Pour les autres vitesses, la méthode retourne respectivement : « premiere », « seconde », « troisieme », « quatrieme », « cinquieme ».
-
-Implémentez la classe BoiteDeVitesses. Ajoutez dans la classe une méthode main dans laquelle vous allez simuler une voiture qui fait un run sur 400m départ arreté. Pour cela, créez une instance de type BoiteDeVitesses et simuler l'accélaration jusqu'en 5e avant de revenir au point mort. 
-Apres chaque changement de vitesse, affichez sur une meme ligne de la sortie standard le numéro de la vitesse courante, '-' et la représentation de la boite a vitesse.
-
-
-
-## Exercice 2
-
-On souhaite créer les classes MoteurEssence et MoteurDiesel pour représenter les moteurs à explosion. Ces classes contiennent les méthodes :
-
-**accelerer()**
-Pour augmenter le régime
-
-**decelerer()**
-Pour baisser le régime
-
-**demarrer()**
-Pour démarrer le moteur
-
-**getRegime()**
-Pour donner le régime moteur
-
-**getConsommation()**
-Pour donner la consommation, génération aléatoire dans la plage.
-
-La plage de régime du moteur essence est de 900 a 14000 trs/min. Le rupteur s'active 13500 trs/min et fait descendre le régime a 13000trs/min.
-La plage de consommation du moteur essence est de 4 a 14l/100.
-La plage de régime du moteur diesel est de 750 a 6500 trs/min. Le rupteur s'active 6000 trs/min et fait descendre le régime a 5500trs/min.
-La plage de consommation du moteur essence est de 2 a 9l/100.
-
-Nous allons créer un banc de test qui peut tester les moteurs a explosion. Pour cela, le garagiste demande un contrat commun entre tous les moteurs.
-Le plan de test consiste:
-* a accélérer progressivement jusqu'a la limite de chaque moteur, 
-* de vérifier que le rupteur s'enclenche
-Pour etre réussi, le test doit etre reproduit 10 fois. 
-
-
-**Implémentez la classe BancTest et les différentes classes de MoteurExplosion. Par ailleurs, il arrive que ce plan de test provoque la rupture du moteur. Trouver le moyen de matérialiser cet évenement. La sortie standard affichera le régime moteur et la consommation.**
-
-
-## Exercice 3
 On souhaite implémenter une classe DetecteurTemperature. Cette classe recevra des informations sur la température et sera capable de déduire si le niveau de température est normal, élevé ou critique :
 
 | Température | Niveau |
@@ -94,7 +36,7 @@ Ajouter la méthode main suivante pour tester votre classe :
       }
     }
 
-## Exercice 4
+## Exercice 2
 On souhaite implémenter le code de Francois 1er en utilisant le code ci-dessous. Cet algorithme de chiffrement classique, utilisé par Francois 1er dans ses correspondances secrètes, se base sur le principe du décalage. Une lettre est remplacée par son équivalent dans l’alphabet en effectuant un décalage. Le programme ci-dessous utilise un décalage. Cela donne comme équivalence :
 
 <table class="hlist"><tbody><tr><td><ul class="simple">
