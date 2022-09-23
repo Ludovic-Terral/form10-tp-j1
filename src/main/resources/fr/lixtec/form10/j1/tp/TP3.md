@@ -50,3 +50,31 @@ Le pourcentage correspond au nombre de cases restantes.
 Il y aura ensuite l'affichage des grilles de tir et de flotte en côte à côte.
 
 Enfin le jeu affichera le nom du joueur gagnant lorsqu'une des flottes est anéantie.
+
+### Quelques indications
+* La configuration du navire en début de partie pourrait se faire via la pattern suivante:
+[<U identifiant en une lettre>, <X1 point haut gauche>, <H ou V orientation>]
+
+* On nettoie la console (hors IDE) avec le code suivant:
+
+    public static void clrscr()
+    {
+        try
+        {
+            if (System.getProperty("os.name").contains("Windows"))
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            else Runtime.getRuntime().exec("clear");
+        }
+        catch (IOException | InterruptedException ex)
+        {
+            // erreur canard. C'est mal
+        }
+    }
+
+* La classe Scanner doit être initialisée qu'une seule fois car elle ferme l'InputStream associé lorsque la méthode close() est invoquée.
+
+* Pour éxecuter votre bataille galactique, vous devez passer les commandes suivantes dans votre terminal:
+
+     cd <path_project>/bin
+     java fr.lixtec.form10.j1.tp3.BatailleSpatiale
+
