@@ -40,11 +40,11 @@ public class AlgoFrancois
         
         //étape 6
         resultat = algoFrancois.decrypte("xw");
-        System.out.println("Attendu: az - Obtenu:"+resultat+" - Verifie:"+"xw".equals(resultat));
+        System.out.println("Attendu: az - Obtenu:"+resultat+" - Verifie:"+"az".equals(resultat));
         
         //étape 7
         resultat = algoFrancois.decrypte("XW");
-        System.out.println("Attendu: XW - Obtenu:"+resultat+" - Verifie:"+"XW".equals(resultat));
+        System.out.println("Attendu: XW - Obtenu:"+resultat+" - Verifie:"+"AZ".equals(resultat));
 
         //étape 8
         resultat = algoFrancois.decrypte("Gb prfp xr ylrq ab jbp mbfkbp xsbz zbq xidl.");
