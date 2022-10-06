@@ -5,9 +5,9 @@ On souhaite implémenter une classe DetecteurTemperature. Cette classe recevra d
 
 | Température | Niveau |
 | --- | --- |
-| t ? 30 | normal |
+| t < 30 | normal |
 | 30 < t < 38 | élevé |
-| t ? 38 | critique |
+| t > 38 | critique |
 
 La classe DetecteurTemperature possede les méthodes suivantes :
 
