@@ -3,7 +3,7 @@
 ## Création du projet & ajout d'une librairie
 Pour cet exercice, nous allons créer un document PDF grâce à la bibliothèque [iText](https://itextpdf.com/en). Pour cela, téléchargez le fichier JAR suivant :
 
-* [http://central.maven.org/maven2/com/itextpdf/itextpdf/5.5.13/itextpdf-5.5.13.jar](http://central.maven.org/maven2/com/itextpdf/itextpdf/5.5.13/itextpdf-5.5.13.jar)
+* [https://repo1.maven.org/maven2/com/itextpdf/itextpdf/5.5.13.3/itextpdf-5.5.13.3.jar](https://repo1.maven.org/maven2/com/itextpdf/itextpdf/5.5.13.3/itextpdf-5.5.13.3.jar)
     
 
 Créez une projet Java dans Eclipse et copiez les fichiers JAR téléchargés dans un répertoire `lib` que vous créerez dans le projet Eclipse.
