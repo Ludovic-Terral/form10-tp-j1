@@ -7,6 +7,9 @@ package fr.lixtec.form10.j1.tp.tp2;
  */
 public class AlgoFrancois
 {
+	
+	public final static int DECALAGE = 23;
+	
     // ---------- static methods ----------
     public static void main(String[] args)
     {
@@ -48,21 +51,84 @@ public class AlgoFrancois
 
         //étape 8
         resultat = algoFrancois.decrypte("Gb prfp xr ylrq ab jbp mbfkbp xsbz zbq xidl.");
-        System.out.println("Obtenu:"+resultat);        
+        System.out.println("Obtenu:"+resultat);
+     
     }
 
     
 
     // ---------- instance methods ----------
     public String encrypte(String texte)
-    {
-        return "";
+    {   	
+    	char[]tableau = texte.toCharArray();
+    	int nbChar = texte.length();
+    	
+    	for (int i=0; i<nbChar; i++) {
+    		
+    		int j = (int)tableau[i];
+    		
+    		if ( isMajuscule(j) ) {
+        		j = j - 65;
+        		j = (j +DECALAGE)%26;
+        		j = j + 65;
+    		}
+    		
+    		if ( isMinuscule(j) ) {
+        		j = j - 97;
+        		j = (j +DECALAGE)%26;
+        		j = j + 97;
+    		}
+    		   		
+    		tableau[i] = (char)j;
+    	}
+
+        return new String(tableau) ;
     }
 
   
+    public boolean isMajuscule(int c) {
+    	if( c >= 65 && c<= 90)
+    		return true;
+    	else
+    		return false;
+   
+    }
+    
+    public boolean isMinuscule(int c) {
+    	if( c >= 97 && c<= 122)
+    		return true;
+    	else
+    		return false;
+   
+    }
     
     public String decrypte(String texte)
     {
-        return "";
+    	  	
+    	char[]tableau = texte.toCharArray();
+    	int nbChar = texte.length();
+    	
+    	for (int i=0; i<nbChar; i++) {
+    		
+    		int j = (int)tableau[i];
+    		
+    		if ( isMajuscule(j) ) {
+        		j = j - 65;
+        		j = j + 26;
+        		j = (j - DECALAGE)%26;
+        		j = j + 65;
+    		}
+    		
+    		if ( isMinuscule(j) ) {
+        		j = j - 97;
+        		j = j + 26;
+        		j = (j - DECALAGE)%26;
+        		j = j + 97;
+    		}
+    		   		
+    		tableau[i] = (char)j;
+    	}
+
+        return new String(tableau) ;
     }
 }
