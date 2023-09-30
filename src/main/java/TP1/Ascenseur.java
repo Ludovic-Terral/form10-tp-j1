@@ -16,7 +16,7 @@ public class Ascenseur {
 	
 	public void appelerDepuis(int etage) {
 		
-		System.out.print(">>Etage ");
+		System.out.print(">>Etage  ");
 		System.out.print(etage);
 		System.out.println("<<");
 		
