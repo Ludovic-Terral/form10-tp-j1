@@ -1,4 +1,4 @@
-package TP3;
+package TP3.Vaiseau;
 
 public class Vaisseau {
 	
@@ -6,16 +6,17 @@ public class Vaisseau {
 	
 	protected int _cote1;
 	protected int _cote2;
-	protected static int _pv;
+	protected int _pv;
 	
 	protected int _longueurVerticale;
 	protected int _longueurHorizontale;
+	
+	protected Boolean _isPlace = false;
 	
 	public Vaisseau(int cote1, int cote2) {
 		_cote1 = cote1;
 		_cote2 = cote2;
 		_pv = _cote1 * _cote2;
-		
 		positionHorizontale();
 
 	}
@@ -52,7 +53,7 @@ public class Vaisseau {
 	}
 	
 	public int getPercentLife() {
-		return ( _pv*100/(_cote1*_cote2) ) ;
+		return (_pv*100/(_cote1*_cote2) ) ;
 	};
 	
 	public void damage() {
@@ -63,9 +64,9 @@ public class Vaisseau {
 		return _name;
 	}
 	
-	public String getStatsVaisseu() {
+	public String getStatsVaisseau() {
 		String txt;
-		txt = "Vaisseau de la classe " + getName() + " ";
+		txt = "- Vaisseau de la classe " + getName() + " ";
 		
 		if (_pv == 0)
 			txt += "désintégré";
@@ -74,5 +75,12 @@ public class Vaisseau {
 		}
 		
 		return txt;
+	}
+	
+	public Boolean getStatusPostion() {
+		return _isPlace;
+	}
+	public void setStatusPostion(Boolean val) {
+		_isPlace = val;
 	}
 }

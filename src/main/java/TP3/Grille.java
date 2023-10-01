@@ -1,6 +1,11 @@
 package TP3;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import TP3.Case.ContentCase;
+import TP3.Vaiseau.*;
+
 
 public class Grille {
 
@@ -11,9 +16,15 @@ public class Grille {
 	private String[] _repereHorizontal;
 	private char[] _repereVertical;
 	
-	Case[][] _grille;
+	private Case[][] _grille;
 	
-	Universe _u;
+	private List<Vaisseau> _listVaisseau;
+	
+	private Universe _u;
+	private Sovereign _s;
+	private Ambassadeur _a;
+	private Constitution _c;
+	private Navette _n;
 	
 	public Grille(){
 		
@@ -32,8 +43,24 @@ public class Grille {
 			}
 		}
 		
+		_listVaisseau = new ArrayList<>();
+		
 		_u = new Universe();
-	
+		_listVaisseau.add(_u);
+		
+		_s = new Sovereign();
+		_listVaisseau.add(_s);
+		
+		_a = new Ambassadeur();
+		_listVaisseau.add(_a);
+		
+		_c = new Constitution();
+		_listVaisseau.add(_c);
+		
+		_n = new Navette();
+		_listVaisseau.add(_n);
+		
+		
 	}
 	
 	
@@ -112,7 +139,7 @@ public class Grille {
 	}
 	
 	
-	public int positionnerVaisseau(char idVaisseau, char[]position, char orientation) {
+	public int positionnerVaisseau(String idVaisseau, String position, String orientation) {
 		
 		int indexV = indexVertical(position);
 		int indexH = indexHorizontal(position);
@@ -120,49 +147,56 @@ public class Grille {
 		if(indexV == -1 || indexH == -1)
 			return -1;
 		
-		if (checkOrientation(orientation) != 0)
+		if (checkOrientation(orientation.charAt(0)) != 0)
 			return -1;
 		
 		
 	
-		switch (idVaisseau) {
+		switch (idVaisseau.charAt(0)) {
 		case 'U':
-			if(orientation == 'H')
-				_u.positionHorizontale();
-			else
-				_u.positionVerticale();
 			
-			if( indexV + _u.getLongueurVerticale() > LIGNE )
+			if ( placementVaisseau(orientation, indexV, indexH, _u) !=0)
 				return -1;
+			break;
 			
-			if( indexH + _u.getLongueurHorizontale() > COLONNE )
+		case 'S':		
+			if ( placementVaisseau(orientation, indexV, indexH, _s) !=0)
 				return -1;
-			
-			for (int i = 0 ; i < _u.getLongueurVerticale(); i++) {
-				for (int j =0; j< _u.getLongueurHorizontale(); j++) {
-					_grille[indexV+i][indexH+j].setContentCase(ContentCase.VAISSEAU);
-				}
-			}
+			break;
 					
-				
+		case 'A':		
+			if ( placementVaisseau(orientation, indexV, indexH, _a) !=0)
+				return -1;
+			break;
 			
+		case 'C':			
+			if ( placementVaisseau(orientation, indexV, indexH, _c) !=0)
+				return -1;
+			break;
+					
+		case 'N':		
+			if ( placementVaisseau(orientation, indexV, indexH, _n) !=0)
+				return -1;
 			break;
 					
 		default:
 			return -1;
-			
-			
-		}
-		
-		return 0;
-		
-	}
-	
-	
-	public int indexHorizontal(char[] position) {
+					
+		}		
+		return 0;		
+	}	
 
-		int c = (int) position[1];
-		c = c - 49;
+				
+					
+
+	
+	
+	public int indexHorizontal(String position) {
+		
+		String s = position.substring(1);
+		int c = Integer.parseInt(s);
+		
+		c = c -1;
 		
 		if (c > COLONNE ||  c < 0) 
 			return -1;//..err
@@ -170,9 +204,11 @@ public class Grille {
 			return c;	
 	}
 	
-	public int indexVertical(char[] position) {
-
-		int c = (int) position[0];
+	public int indexVertical(String position) {
+		
+		String s = position.substring(0,1);
+		char[] tabChar = s.toCharArray();
+		int c = (int) tabChar[0];
 		c = c - 65;
 		
 		if (c > LIGNE ||  c < 0) 
@@ -190,30 +226,132 @@ public class Grille {
 		
 	}
 	
+	public int placementVaisseau(String orientation, int indexV, int indexH, Vaisseau v) {
+		
+		if(orientation.charAt(0) == 'H')
+			v.positionHorizontale();
+		else
+			v.positionVerticale();
+		
+		if( indexV + v.getLongueurVerticale() > LIGNE )
+			return -1;
+		
+		if( indexH + v.getLongueurHorizontale() > COLONNE )
+			return -1;
+		
+		for (int i = 0 ; i < v.getLongueurVerticale(); i++) {
+			for (int j =0; j< v.getLongueurHorizontale(); j++) {
+				_grille[indexV+i][indexH+j].setContentCase(ContentCase.VAISSEAU);
+			}
+		}
+		
+		v.setStatusPostion(true);
+		
+		return 0;
+	}
 
 
 	
 	//List de vaisseau
-	public Universe getUniverseForTest() {
-		return _u;
+	public List<Vaisseau> getListVaisseau() {
+		return _listVaisseau;
 	}
 	
-	/*•La configuration du navire en début de partie pourrait se faire via la pattern suivante:
- [<U identifiant en une lettre>, <X1 point haut gauche>, <H ou V orientation>]
-•On nettoie la console (hors IDE) avec le code suivant:
+    public int handleInputPostionVaisseau(String input) {
+    	
+    	String[] tabString = input.split(",");
+    	if (tabString.length != 3)
+    		return -1;
+    	
+    	positionnerVaisseau(tabString[0],tabString[1],tabString[2]);
+    	
+    	return 0;
+    }
+    
+    public void resetGrille() {
+		for (int i =0; i< LIGNE; i++) {
+			for(int k=0;k<COLONNE;k++) {
+				_grille[i][k].setContentCase(ContentCase.VIDE);	
+			}
+		}
+		
+		_u.setStatusPostion(false);
+		_s.setStatusPostion(false);
+		_a.setStatusPostion(false);
+		_c.setStatusPostion(false);
+		_n.setStatusPostion(false);
+		
+    }
+    
+    public int listeVaisseauxAPlacer() {
+    	
+    	if (_u.getStatusPostion() != true)
+		 	System.out.println("<Id Universe (3x2)>:     U");
+		 
+     	if (_s.getStatusPostion() != true)
+     		System.out.println("<Id Sovereign (2x2)>:    S");
+     	if (_a.getStatusPostion() != true)
+     		System.out.println("<Id Ambassadeur (3x1)>:  A");
+     	if (_c.getStatusPostion() != true)
+     		System.out.println("<Id Constitution (3x1)>: C");
+     	if (_n.getStatusPostion() != true)
+     		System.out.println("<Id Navette (2x1)>:      N");
+		
+		if(	_u.getStatusPostion() == true 
+			 && _s.getStatusPostion() == true
+			 && _a.getStatusPostion() == true
+			 && _c.getStatusPostion() == true
+			 && _n.getStatusPostion() == true) {
+			return 0;
+		}
+		else
+			return -1;
+    }
+    
+    
+    
+    public void afficheStatVaisseaux() {  
+    		
+    	afficheStatFlotte();
+    	
+    	for (Vaisseau v : _listVaisseau) {
+    		System.out.println(v.getStatsVaisseau());
+    	} 	
+    }
+    
+    public void afficheStatFlotte() {  
+		
+    	int percentFlotte = 0;
+    	
+    	for (Vaisseau v : _listVaisseau) {
+    		percentFlotte += v.getPercentLife();
+    	}
+    	
+    	percentFlotte = percentFlotte / _listVaisseau.size() ;
+    	System.out.println("Flotte opérationnelle à " + percentFlotte + "%");
+    	
+    }
+    
+    
+    
+    public void instructionGamePlayer(String player) {
+    	
+		String greenColor = "\u001B[32m";
+		String reset = "\u001B[0m";
 
-	public void afficheCaseAvecCouleur() {
-	    // Codes d'échappement ANSI pour la couleur
-	    String reset = "\u001B[0m"; // Réinitialisation de la couleur
-	    String couleurRouge = "\u001B[31m"; // Rouge
+     	System.out.println(greenColor + player);
+     	System.out.println(">>Saisir la position des vaisseaux sur le champ de battaile<<" + reset);
+     	System.out.println("<Id>,<Coordonnées>,<H ou V orientation>");
+        //listeVaisseauxAPlacer();
+    	System.out.println();
+     	System.out.println("Exemple: U,C6,H");
+    	positionnerVaisseau("U","C6","H");
+    	afficherGrille();
+    	resetGrille();
+    }
 
-	    // Caractère spécial Unicode représentant la forme
-	    char coinHautGauche = '\u259B';
 
-	    // Affichage de la forme en rouge
-	    System.out.println(couleurRouge + coinHautGauche + reset);
-	}
-	*/
-	
+   
+    
 	
 }

@@ -1,34 +1,42 @@
 package TP3;
 
 import java.io.IOException;
+import java.util.Scanner;
 
-import TP3.Grille;
+//import TP3.Grille;
 
 public class BatailleGalactique {
 
 	
     public static void main(String[] args) { 
-    	
+    	 	
+        Scanner scanner = new Scanner(System.in);
+    	Grille grilleP1 = new Grille();
+     	Grille grilleP2 = new Grille();
+
+     	//Joueur1
+     	clrscr();
+    	//grilleP1.afficheStatVaisseaux();
+     	grilleP1.instructionGamePlayer("Player1");
+     	saisieChampDeBataille(grilleP1,scanner );
+     	
+    
+    		
+     	//Joueur2
     	clrscr();
-    	System.out.println("Battle");
+     	grilleP2.instructionGamePlayer("Player2");
+     	saisieChampDeBataille(grilleP2,scanner);
+        
+    	 	
+    
+
+
+
+        scanner.close();
+     
+
+
     	
-    	Grille grille = new Grille();
-    	
-    	//Universe u = new Universe();
-    	
-    	grille.afficherGrille();
-    	
-    	char[] pos = {'C','6'};
-    	grille.positionnerVaisseau('U',pos,'H');
-    	
-    	char[] pos2 = {'A','1'};
-    	grille.positionnerVaisseau('U',pos2,'V');
-    	
-    	grille.afficherGrille();
-    	
-    	System.out.println(grille.getUniverseForTest().getStatsVaisseu());
-    	
-	
     }
     
     public static void clrscr()
@@ -44,7 +52,24 @@ public class BatailleGalactique {
 	        // erreur canard. C'est mal
 	    }
 	}
-	
+    
+    public static void saisieChampDeBataille(Grille grille, Scanner scanner) {
+        //Scanner scanner = new Scanner(System.in);
+		String greenColor = "\u001B[32m";
+		String reset = "\u001B[0m";
+    	
+    	while(grille.listeVaisseauxAPlacer() != 0) {
+	        System.out.print(greenColor + ">>");
+	        String input = scanner.next();
+	       	clrscr();
+	        System.out.println(reset + ">>" + input );
+	        grille.handleInputPostionVaisseau(input);
+	        grille.afficherGrille();
+    	}
+    }
+    
+    
+
 
     
 }
