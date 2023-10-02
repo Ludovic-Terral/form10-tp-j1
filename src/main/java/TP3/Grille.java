@@ -139,52 +139,64 @@ public class Grille {
 	}
 	
 	
+	//Err: -1 	Impossible de positionner le vaisseau
+	//Err: 1	Positionnement vaisseau hors limite
+	//Err: 2	Orientation non reconnu	
+	//Err: 3	Placement du vaisseau impossible: collision avec un autre vaisseau ou vaisseau hors-limite
+	//Err: 4	Id vaisseau non reconnu
 	public int positionnerVaisseau(String idVaisseau, String position, String orientation) {
+		
+		idVaisseau = idVaisseau.toUpperCase();
+		position = position.toUpperCase();
+		orientation = orientation.toUpperCase();
+		
+		if (idVaisseau.length() != 1)
+			return 4;
 		
 		int indexV = indexVertical(position);
 		int indexH = indexHorizontal(position);
 		
 		if(indexV == -1 || indexH == -1)
-			return -1;
+			return 1;
 		
 		if (checkOrientation(orientation.charAt(0)) != 0)
-			return -1;
-		
-		
+			return 2;
 	
 		switch (idVaisseau.charAt(0)) {
 		case 'U':
 			
 			if ( placementVaisseau(orientation, indexV, indexH, _u) !=0)
-				return -1;
+				return 3;
 			break;
 			
 		case 'S':		
 			if ( placementVaisseau(orientation, indexV, indexH, _s) !=0)
-				return -1;
+				return 3;
 			break;
 					
 		case 'A':		
 			if ( placementVaisseau(orientation, indexV, indexH, _a) !=0)
-				return -1;
+				return 3;
 			break;
 			
 		case 'C':			
 			if ( placementVaisseau(orientation, indexV, indexH, _c) !=0)
-				return -1;
+				return 3;
 			break;
 					
 		case 'N':		
 			if ( placementVaisseau(orientation, indexV, indexH, _n) !=0)
-				return -1;
+				return 3;
 			break;
 					
 		default:
-			return -1;
+			return 4;
 					
-		}		
+		}	
 		return 0;		
 	}	
+	
+	
 
 				
 					
@@ -226,6 +238,7 @@ public class Grille {
 		
 	}
 	
+
 	public int placementVaisseau(String orientation, int indexV, int indexH, Vaisseau v) {
 		
 		if(orientation.charAt(0) == 'H')
@@ -239,9 +252,12 @@ public class Grille {
 		if( indexH + v.getLongueurHorizontale() > COLONNE )
 			return -1;
 		
+		if (checkCollision(v,indexV,indexH) != 0)
+			return -1;
+		
 		for (int i = 0 ; i < v.getLongueurVerticale(); i++) {
-			for (int j =0; j< v.getLongueurHorizontale(); j++) {
-				_grille[indexV+i][indexH+j].setContentCase(ContentCase.VAISSEAU);
+			for (int j =0; j< v.getLongueurHorizontale(); j++) {		
+				_grille[indexV+i][indexH+j].setContentCase(ContentCase.VAISSEAU);		
 			}
 		}
 		
@@ -263,11 +279,44 @@ public class Grille {
     	if (tabString.length != 3)
     		return -1;
     	
-    	positionnerVaisseau(tabString[0],tabString[1],tabString[2]);
-    	
+    	switch (positionnerVaisseau(tabString[0],tabString[1],tabString[2])) {
+    	case 0:
+    		break;
+    	case 1:
+    		printErrorRed("Positionnement vaisseau hors limite");
+    		break;		
+    	case 2:
+    		printErrorRed("Orientation non reconnu");
+    		break;
+    	case 3:
+    		printErrorRed("Placement du vaisseau impossible: collision avec un autre vaisseau ou vaisseau hors-limite");
+    		break;   		
+    	case 4:
+    		printErrorRed("Id vaisseau non reconnu");
+    		break;
+    	case -1:
+    		printErrorRed("Impossible de positionner le vaisseau");
+    		break;
+    	default:
+    		return -1;
+    	}   	
     	return 0;
     }
     
+    public int checkCollision(Vaisseau v, int indexV, int indexH) {
+    	for (int i = 0 ; i < v.getLongueurVerticale(); i++) {
+			for (int j =0; j< v.getLongueurHorizontale(); j++) {
+				if(_grille[indexV+i][indexH+j].getContentCase() != ContentCase.VIDE)
+					return -1;				
+			}
+		}
+    	return 0;	
+    }
+    
+    
+    
+    
+    /*
     public void resetGrille() {
 		for (int i =0; i< LIGNE; i++) {
 			for(int k=0;k<COLONNE;k++) {
@@ -282,6 +331,7 @@ public class Grille {
 		_n.setStatusPostion(false);
 		
     }
+    */
     
     public int listeVaisseauxAPlacer() {
     	
@@ -339,19 +389,22 @@ public class Grille {
 		String greenColor = "\u001B[32m";
 		String reset = "\u001B[0m";
 
-     	System.out.println(greenColor + player);
-     	System.out.println(">>Saisir la position des vaisseaux sur le champ de battaile<<" + reset);
+     	System.out.println(greenColor + player + reset);
+     	System.out.println(">>Saisir la position des vaisseaux sur le champ de battaile<<");
      	System.out.println("<Id>,<Coordonnées>,<H ou V orientation>");
-        //listeVaisseauxAPlacer();
-    	System.out.println();
      	System.out.println("Exemple: U,C6,H");
-    	positionnerVaisseau("U","C6","H");
+      	System.out.println();
+    	//positionnerVaisseau("U","C6","H");
     	afficherGrille();
-    	resetGrille();
+    	//resetGrille();
     }
 
 
-   
+    public void printErrorRed(String msg) {
+		String redColor = "\u001B[31m";
+		String reset = "\u001B[0m";
+		System.out.println(redColor + msg + reset);
+    }
     
 	
 }

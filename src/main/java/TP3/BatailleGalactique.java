@@ -62,12 +62,22 @@ public class BatailleGalactique {
 	        System.out.print(greenColor + ">>");
 	        String input = scanner.next();
 	       	clrscr();
-	        System.out.println(reset + ">>" + input );
-	        grille.handleInputPostionVaisseau(input);
+	        System.out.print(reset + ">>");
+	        printErrorRed(input);
+	        if (grille.handleInputPostionVaisseau(input) != 0)
+	        	 printErrorRed("Saisie non coforme");
+	    	System.out.println("<Id>,<Coordonnées>,<H ou V orientation>");
+	     	System.out.println("Exemple: U,C6,H");
+	        System.out.println();
 	        grille.afficherGrille();
     	}
     }
     
+    public static void printErrorRed(String msg) {
+		String redColor = "\u001B[31m";
+		String reset = "\u001B[0m";
+		System.out.println(redColor + msg + reset);
+    }
     
 
 
