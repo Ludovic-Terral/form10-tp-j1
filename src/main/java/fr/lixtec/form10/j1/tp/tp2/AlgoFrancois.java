@@ -1,7 +1,6 @@
 package fr.lixtec.form10.j1.tp.tp2;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AlgoFrancois {
