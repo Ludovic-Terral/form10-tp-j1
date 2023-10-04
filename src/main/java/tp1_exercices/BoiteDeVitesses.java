@@ -1,4 +1,4 @@
-package fr.lixtec.form10.j1.tp.tp2;
+package tp1_exercices;
 
 public class BoiteDeVitesses {
 
