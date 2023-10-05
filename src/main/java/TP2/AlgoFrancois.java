@@ -1,9 +1,9 @@
-package fr.lixtec.form10.j1.tp.tp2;
+package TP2;
 
 /**
  * Cette classe encode et décode selon la méthode de cryptage de Francois.
  * 
- * @author <a definir>
+ * @author LucasBrutus
  */
 public class AlgoFrancois
 {
@@ -56,13 +56,27 @@ public class AlgoFrancois
     // ---------- instance methods ----------
     public String encrypte(String texte)
     {
-        return "";
+    	char[]tab = texte.toCharArray();
+    	for(int i=0;i<tab.length;i++) {
+    		if(tab[i]>='a' & tab[i]<='z')
+    			tab[i] = (char) ((((tab[i]-97)+23)%26)+97);
+    		else if(tab[i]>='A' & tab[i]<='Z')
+    			tab[i] = (char) ((((tab[i]-65)+23)%26)+65);
+    	}
+        return new String (tab);
     }
 
   
     
     public String decrypte(String texte)
     {
-        return "";
+    	char[]tab = texte.toCharArray();
+    	for(int i=0;i<tab.length;i++) {
+    		if(tab[i]>='a' & tab[i]<='z')
+    			tab[i] = (char) ((((tab[i]-97)+3)%26)+97);
+    		else if(tab[i]>='A' & tab[i]<='Z')
+    			tab[i] = (char) ((((tab[i]-65)+3)%26)+65);
+    	}
+        return new String (tab);
     }
 }
