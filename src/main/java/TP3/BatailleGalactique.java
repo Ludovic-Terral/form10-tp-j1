@@ -13,25 +13,48 @@ public class BatailleGalactique {
         Scanner scanner = new Scanner(System.in);
     	Grille grilleP1 = new Grille();
      	Grille grilleP2 = new Grille();
-
+     	
      	//Joueur1
      	clrscr();
-    	//grilleP1.afficheStatVaisseaux();
-     	grilleP1.instructionGamePlayer("Player1");
+     	grilleP1.instructionInitGame("Player1");
      	saisieChampDeBataille(grilleP1,scanner );
+    	grilleP1.resetGrille();
+    	
      	
-    
-    		
+     	/*	
+     	grilleP1.positionnerVaisseau("U","C6","V"); //U,C6,V
+    	grilleP1.positionnerVaisseau("A","A1","H"); //A,A1,H
+    	grilleP1.positionnerVaisseau("C","F1","H"); //C,F1,H
+     	grilleP1.positionnerVaisseau("N","F5","H"); //N,F5,H
+    	grilleP1.positionnerVaisseau("S","G5","V"); //S,G5,V
+*/
+   		
      	//Joueur2
+     	
+     	/*
     	clrscr();
-     	grilleP2.instructionGamePlayer("Player2");
+     	grilleP2.instructionInitGame("Player2");
      	saisieChampDeBataille(grilleP2,scanner);
+     	grilleP2.resetGrille();
+     	*/
         
-    	 	
+    	
+     	//game
+     	Boolean game = true;
+     	
+     	while(game) {
+     	   
+     		grilleP1.printNamePlayer("Player");
+     		grilleP1.afficherGrille();
+     		
+     		grilleP1.afficheStatVaisseaux();
+     		grilleP1.instructionGame(); 
+        	
+        	
+     		saisieTirChampDeBataille(grilleP1,scanner);
+     		
+     	}
     
-
-
-
         scanner.close();
      
 
@@ -71,6 +94,19 @@ public class BatailleGalactique {
 	        System.out.println();
 	        grille.afficherGrille();
     	}
+    }
+    
+    public static void saisieTirChampDeBataille(Grille grille, Scanner scanner) {
+		String greenColor = "\u001B[32m";
+		String reset = "\u001B[0m";
+		
+        System.out.print(greenColor + ">>");
+        String input = scanner.next();
+       	clrscr();
+        System.out.print(reset + ">>");
+        if (grille.handleInputTir(input) != 0)
+        	printErrorRed("Saisie non coforme");
+        
     }
     
     public static void printErrorRed(String msg) {

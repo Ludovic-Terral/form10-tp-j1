@@ -12,13 +12,16 @@ public class Vaisseau {
 	protected int _longueurHorizontale;
 	
 	protected Boolean _isPlace = false;
+
+	public Vaisseau() {
+		this(0,0);
+	}
 	
 	public Vaisseau(int cote1, int cote2) {
 		_cote1 = cote1;
 		_cote2 = cote2;
-		_pv = _cote1 * _cote2;
+		//_pv = _cote1 * _cote2;
 		positionHorizontale();
-
 	}
 	
 	public void positionHorizontale() {
@@ -55,6 +58,10 @@ public class Vaisseau {
 	public int getPercentLife() {
 		return (_pv*100/(_cote1*_cote2) ) ;
 	};
+	
+	public void setPv() {
+		_pv = _cote1 * _cote2;
+	}
 	
 	public void damage() {
 		_pv--;

@@ -1,8 +1,10 @@
 package TP3;
 
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 
+import TP3.Case.Color;
 import TP3.Case.ContentCase;
 import TP3.Vaiseau.*;
 
@@ -66,24 +68,33 @@ public class Grille {
 	
 	public int afficherGrille() {
 		
+		Case currentCase = new Case();
+		
 		affichePremiereLigne();
-	
 		for (int i = 0; i<LIGNE; i++) {
 				
 			afficheRepereVertical(i);
 			for (int k = 0; k <COLONNE; k++) {
 				
-
-				if (_grille[i][k].getContentCase() ==  ContentCase.VIDE)
-					afficheCaseVierge();
-				else
-					afficheCaseVaisseau();
+				if (_grille[i][k].getIsReveal() !=  true)
+					currentCase.afficheCaractereCase('#',Color.RESET);
+				else {
+					switch(_grille[i][k].getContentCase()){
+						case VIDE:
+							currentCase.afficheCaractereCase('.',Color.RESET);
+						break;
+						case VAISSEAU:
+							currentCase.afficheCaractereCase('#',Color.ROUGE);
+						default:
+							break;
+					}
+				}	
 			}
-			
 			System.out.println();
 		}
 		return 0;
 	}
+
 	
 	public void fillRepereHorizontal(){
 		for (int i=0; i< COLONNE; i++) {
@@ -97,21 +108,6 @@ public class Grille {
 		}
 	}
 	
-	public void afficheCaseVierge() {
-		
-		String greenColor = "\u001B[32m";
-		String reset = "\u001B[0m";
-		System.out.print( greenColor + "#" + reset); //
-	}
-	
-	public void afficheCaseVaisseau() {
-		
-		String redColor = "\u001B[31m";
-		String reset = "\u001B[0m";
-		System.out.print( redColor + "#" + reset); //
-	}
-
-
 	public void affichePremiereLigne() {
 		
 		String greenColor = "\u001B[32m";
@@ -144,6 +140,7 @@ public class Grille {
 	//Err: 2	Orientation non reconnu	
 	//Err: 3	Placement du vaisseau impossible: collision avec un autre vaisseau ou vaisseau hors-limite
 	//Err: 4	Id vaisseau non reconnu
+	//Err: 5	Id vaisseau deja placé
 	public int positionnerVaisseau(String idVaisseau, String position, String orientation) {
 		
 		idVaisseau = idVaisseau.toUpperCase();
@@ -155,7 +152,7 @@ public class Grille {
 		
 		int indexV = indexVertical(position);
 		int indexH = indexHorizontal(position);
-		
+		 
 		if(indexV == -1 || indexH == -1)
 			return 1;
 		
@@ -164,27 +161,36 @@ public class Grille {
 	
 		switch (idVaisseau.charAt(0)) {
 		case 'U':
-			
+			if (_u.getStatusPostion() == true)
+				return 5;
 			if ( placementVaisseau(orientation, indexV, indexH, _u) !=0)
 				return 3;
 			break;
 			
-		case 'S':		
+		case 'S':
+			if (_s.getStatusPostion() == true)
+				return 5;
 			if ( placementVaisseau(orientation, indexV, indexH, _s) !=0)
 				return 3;
 			break;
 					
-		case 'A':		
+		case 'A':
+			if (_a.getStatusPostion() == true)
+				return 5;
 			if ( placementVaisseau(orientation, indexV, indexH, _a) !=0)
 				return 3;
 			break;
 			
-		case 'C':			
+		case 'C':	
+			if (_c.getStatusPostion() == true)
+				return 5;
 			if ( placementVaisseau(orientation, indexV, indexH, _c) !=0)
 				return 3;
 			break;
 					
-		case 'N':		
+		case 'N':	
+			if (_n.getStatusPostion() == true)
+				return 5;
 			if ( placementVaisseau(orientation, indexV, indexH, _n) !=0)
 				return 3;
 			break;
@@ -257,7 +263,9 @@ public class Grille {
 		
 		for (int i = 0 ; i < v.getLongueurVerticale(); i++) {
 			for (int j =0; j< v.getLongueurHorizontale(); j++) {		
-				_grille[indexV+i][indexH+j].setContentCase(ContentCase.VAISSEAU);		
+				_grille[indexV+i][indexH+j].setContentCase(ContentCase.VAISSEAU);
+				_grille[indexV+i][indexH+j].setVaisseau(v);
+				//v.setStatusPostion(true);
 			}
 		}
 		
@@ -294,6 +302,9 @@ public class Grille {
     	case 4:
     		printErrorRed("Id vaisseau non reconnu");
     		break;
+    	case 5:
+    		printErrorRed("Id vaisseau deja placé");
+    		break;
     	case -1:
     		printErrorRed("Impossible de positionner le vaisseau");
     		break;
@@ -316,22 +327,25 @@ public class Grille {
     
     
     
-    /*
+    
     public void resetGrille() {
 		for (int i =0; i< LIGNE; i++) {
 			for(int k=0;k<COLONNE;k++) {
-				_grille[i][k].setContentCase(ContentCase.VIDE);	
+				_grille[i][k].setIsReveal(false);
 			}
 		}
 		
-		_u.setStatusPostion(false);
-		_s.setStatusPostion(false);
-		_a.setStatusPostion(false);
-		_c.setStatusPostion(false);
-		_n.setStatusPostion(false);
+		for (Vaisseau v : _listVaisseau) {
+			v.setPv();
+		}
+		//_u.setStatusPostion(false);
+		//_s.setStatusPostion(false);
+		//_a.setStatusPostion(false);
+		//_c.setStatusPostion(false);
+		//_n.setStatusPostion(false);
 		
     }
-    */
+    
     
     public int listeVaisseauxAPlacer() {
     	
@@ -366,7 +380,9 @@ public class Grille {
     	
     	for (Vaisseau v : _listVaisseau) {
     		System.out.println(v.getStatsVaisseau());
-    	} 	
+    	} 
+    	
+    	System.out.println();
     }
     
     public void afficheStatFlotte() {  
@@ -384,7 +400,7 @@ public class Grille {
     
     
     
-    public void instructionGamePlayer(String player) {
+    public void instructionInitGame(String player) {
     	
 		String greenColor = "\u001B[32m";
 		String reset = "\u001B[0m";
@@ -394,10 +410,62 @@ public class Grille {
      	System.out.println("<Id>,<Coordonnées>,<H ou V orientation>");
      	System.out.println("Exemple: U,C6,H");
       	System.out.println();
-    	//positionnerVaisseau("U","C6","H");
     	afficherGrille();
     	//resetGrille();
     }
+    public void printNamePlayer(String player) {
+		String greenColor = "\u001B[32m";
+		String reset = "\u001B[0m";
+    	
+     	System.out.println(greenColor + player + reset);
+    }
+    
+    public void instructionGame() {
+
+     	System.out.println(">>Saisir les coordonnées du tir sur le champ de battaile<<");
+     	System.out.println("<Coordonnées>");
+     	System.out.println("Exemple: C6");
+    }
+    
+    
+    
+    
+ public int handleInputTir(String input) {
+	 
+	 	input = input.toUpperCase();
+    	
+		int indexV = indexVertical(input);
+		int indexH = indexHorizontal(input);
+		
+		if(indexV == -1 || indexH == -1)
+			return -1;
+    	
+		revelerCaseContent(indexV, indexH);
+		
+    	return 0;
+    }
+ 
+ 
+ 	public int revelerCaseContent(int indexV,  int indexH ) {
+ 		
+		String greenColor = "\u001B[32m";
+		String redColor = "\u001B[31m";
+		String reset = "\u001B[0m";			
+ 		if( _grille[indexV][indexH].getIsReveal() ==  true) {
+ 			System.out.println(redColor + "déja tiré ici!!" + reset );
+		}
+		else {
+			if( _grille[indexV][indexH].getContentCase()== ContentCase.VIDE)
+				System.out.println(redColor + "Loupé" + reset);
+			else {
+				System.out.println(greenColor+ "Touché!" + reset);
+				_grille[indexV][indexH].getVaisseau().damage();
+			}
+			_grille[indexV][indexH].setIsReveal(true);			
+		}
+ 		return 0;
+	}
+
 
 
     public void printErrorRed(String msg) {
