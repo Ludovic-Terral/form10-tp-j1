@@ -28,6 +28,8 @@ public class Grille {
 	private Constitution _c;
 	private Navette _n;
 	
+	private String _namePlayer;
+	
 	public Grille(){
 		
 		_repereHorizontal = new String[COLONNE];
@@ -64,8 +66,14 @@ public class Grille {
 		
 		
 	}
-	
-	
+		
+	public String getPlayerName() {
+		return _namePlayer;
+	}
+	public void setPlayerName(String name) {
+		_namePlayer = name;
+	}
+		
 	public int afficherGrille() {
 		
 		Case currentCase = new Case();
@@ -202,10 +210,6 @@ public class Grille {
 		return 0;		
 	}	
 	
-	
-
-				
-					
 
 	
 	
@@ -386,6 +390,12 @@ public class Grille {
     }
     
     public void afficheStatFlotte() {  
+	
+    	System.out.println("Flotte opérationnelle à " + calculStatFlotte() + "%");
+    }
+    	
+   
+    public int calculStatFlotte() {  
 		
     	int percentFlotte = 0;
     	
@@ -393,13 +403,9 @@ public class Grille {
     		percentFlotte += v.getPercentLife();
     	}
     	
-    	percentFlotte = percentFlotte / _listVaisseau.size() ;
-    	System.out.println("Flotte opérationnelle à " + percentFlotte + "%");
-    	
+    	return percentFlotte = percentFlotte / _listVaisseau.size() ;
     }
-    
-    
-    
+       
     public void instructionInitGame(String player) {
     	
 		String greenColor = "\u001B[32m";
