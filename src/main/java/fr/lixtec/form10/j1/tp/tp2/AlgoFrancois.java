@@ -56,13 +56,28 @@ public class AlgoFrancois
     // ---------- instance methods ----------
     public String encrypte(String texte)
     {
-        return "";
+        char[] input = texte.toCharArray();
+        char[] result = new char[texte.length()];
+        for (int i=0; i<texte.length(); i++) {
+            result[i] = encrypte(input[i], 23);
+        }
+        return new String(result);
     }
 
-  
-    
+    private char encrypte(char c, int step) // step must be positive or function won't work, I have to tell you because there are no unsigned integers... thank you java! you suck!
+    {
+        if ('a' <= c && c <= 'z') return (char) ((26 + c-'a' + step) % 26 + 'a');
+        if ('A' <= c && c <= 'Z') return (char) ((26 + c-'A' + step) % 26 + 'A');
+        else return c;
+    }
+
     public String decrypte(String texte)
     {
-        return "";
+        char[] input = texte.toCharArray();
+        char[] result = new char[texte.length()];
+        for (int i=0; i<texte.length(); i++) {
+            result[i] = encrypte(input[i], -23);
+        }
+        return new String(result);
     }
 }
