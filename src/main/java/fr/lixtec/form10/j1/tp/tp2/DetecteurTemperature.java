@@ -53,5 +53,5 @@ public class DetecteurTemperature {
 		    System.out.println("Niveau critique atteint = " + detecteurTemperature.isNiveauAtteint("critique"));
 		    System.out.println("######################################");
 		  }
-		}
+	}
 }

@@ -51,18 +51,41 @@ public class AlgoFrancois
         System.out.println("Obtenu:"+resultat);        
     }
 
-    
+    	
 
-    // ---------- instance methods ----------
-    public String encrypte(String texte)
-    {
-        return "";
+ // ---------- instance methods ----------
+    public String encrypte(String texte) { 
+    	char[] input = texte.toCharArray();
+	    char[] resultat = new char[texte.length()];
+	    for (int i=0; i<texte.length(); i++) {
+	        if ('a' <= input[i] && input[i] <= 'z') {
+	            resultat[i] = (char) ((26 + input[i]-'a' + -3) % 26 + 'a');
+	        }
+	        else if ('A' <= input[i] && input[i] <= 'Z') {
+	            resultat[i] = (char) ((26 + input[i]-'A' + -3) % 26 + 'A');
+	        }
+	        else {
+	            resultat[i] = input[i];
+	        };
+	    }
+	    return new String(resultat); 
     }
-
-  
     
-    public String decrypte(String texte)
-    {
-        return "";
+    
+    public String decrypte(String texte) { 
+    	char[] input = texte.toCharArray();
+	    char[] resultat = new char[texte.length()];
+	    for (int i=0; i<texte.length(); i++) {
+	        if ('a' <= input[i] && input[i] <= 'z') {
+	            resultat[i] = (char) ((26 + input[i]-'a' + +3) % 26 + 'a');
+	        }
+	        else if ('A' <= input[i] && input[i] <= 'Z') {
+	            resultat[i] = (char) ((26 + input[i]-'A' + +3) % 26 + 'A');
+	        }
+	        else {
+	            resultat[i] = input[i];
+	        };
+	    }
+	    return new String(resultat);
     }
 }
