@@ -3,6 +3,8 @@ package TP3;
 import java.io.IOException;
 import java.util.Scanner;
 
+import TP3.Case.Color;
+
 //import TP3.Grille;
 
 public class BatailleGalactique {
@@ -14,38 +16,64 @@ public class BatailleGalactique {
     	Grille grilleP1 = new Grille();
      	Grille grilleP2 = new Grille();
      	
+     	
+     	
+     	
+     	
      	//Joueur1
      	clrscr();
+     	System.out.println("Player1"); 		
        	saisiePlayerName(grilleP1,scanner);
      	grilleP1.instructionInitGame(grilleP1.getPlayerName());
      	saisieChampDeBataille(grilleP1,scanner );
     	grilleP1.resetGrille();
     	
      	
-     	/*	
-     	grilleP1.positionnerVaisseau("U","C6","V"); //U,C6,V
-    	grilleP1.positionnerVaisseau("A","A1","H"); //A,A1,H
-    	grilleP1.positionnerVaisseau("C","F1","H"); //C,F1,H
-     	grilleP1.positionnerVaisseau("N","F5","H"); //N,F5,H
+     	
+     	/*
+     	//grilleP1.positionnerVaisseau("U","C6","V"); //U,C6,V
+    	//grilleP1.positionnerVaisseau("A","A1","H"); //A,A1,H
+    	//grilleP1.positionnerVaisseau("C","F1","H"); //C,F1,H
+     	//grilleP1.positionnerVaisseau("N","F5","H"); //N,F5,H
     	grilleP1.positionnerVaisseau("S","G5","V"); //S,G5,V
-     	 */
+    	grilleP1.resetGrille();
+    	*/
+    	
+
    		
      	//Joueur2 	
     	clrscr();
+     	System.out.println("Player2");
     	saisiePlayerName(grilleP2,scanner);
      	grilleP2.instructionInitGame(grilleP2.getPlayerName());
      	saisieChampDeBataille(grilleP2,scanner);
      	grilleP2.resetGrille();
         
-
+     	/*
      	
-     	while( gammeLoop(grilleP1,grilleP2) != 0 ) {
-     	   
-     		grilleP1.printNamePlayer("Player1 => GO");
-     	    roundTir(grilleP2, scanner);
-     	    
-     		grilleP2.printNamePlayer("Player2 => GO");    		
-     	    roundTir(grilleP1, scanner);;  		
+     	//grilleP2.positionnerVaisseau("U","C6","V"); //U,C6,V
+    	//grilleP2.positionnerVaisseau("A","A1","H"); //A,A1,H
+    	//grilleP2.positionnerVaisseau("C","F1","H"); //C,F1,H
+     	//grilleP2.positionnerVaisseau("N","F5","H"); //N,F5,H
+    	grilleP2.positionnerVaisseau("S","A5","V"); //S,G5,V
+    	grilleP2.resetGrille();
+    	
+     	*/
+    	
+    	boolean game = true;
+
+     	clrscr();
+     	while(game) {
+     	       		
+     		afficherDoubleGrille(grilleP1, grilleP2);
+     	    roundTir(grilleP2, scanner, grilleP1.getPlayerName() );
+     	    if (grilleP2.calculStatFlotte()==0)
+     	    	game = false;
+     	      		
+     		afficherDoubleGrille(grilleP1, grilleP2);
+     	    roundTir(grilleP1, scanner, grilleP2.getPlayerName() );
+     	    if (grilleP1.calculStatFlotte()==0)
+     	    	game = false;
      	}
      	
      	//Winnner
@@ -119,40 +147,106 @@ public class BatailleGalactique {
 		System.out.println(redColor + msg + reset);
     }
     
-    
-    public static int gammeLoop (Grille p1, Grille p2) {   	
-    	if ( p1.calculStatFlotte() == 0 || p2.calculStatFlotte() == 0 )
-    		return 0;
-    	else
-    		return 1;    	
+    public static void printGreen(String msg) {
+    	String greenColor = "\u001B[32m";
+		String reset = "\u001B[0m";
+		System.out.println(greenColor + msg + reset);
     }
     
+    
 
-    public static void roundTir(Grille g, Scanner scanner) {
-		g.afficherGrille();
+    public static void roundTir(Grille g, Scanner scanner, String name) {
+		//g.afficherGrille();
 		g.afficheStatVaisseaux();
+		printGreen(name + " => GO");
 		g.instructionGame(); 
+		
 		saisieTirChampDeBataille(g,scanner);
     }
     
     public static void winner(Grille p1, Grille p2) {
 		String greenColor = "\u001B[32m";
 		String reset = "\u001B[0m";
-		String bold = "u\1D7FF";
-		String italic = "u\1D467";
+		String bold = "\u001B[1m";
+		String italic = "\u001B[3m";
     	
     	
     	
     	if (p1.calculStatFlotte() == 0)
-    		System.out.println(greenColor + bold + italic + p2.getPlayerName() + "win!!" + reset);
+    		System.out.println(greenColor + bold + italic + p2.getPlayerName() + " win!!" + reset);
     	else
-    		System.out.println(greenColor + bold + italic + p1.getPlayerName() + "win!!" + reset);
+    		System.out.println(greenColor + bold + italic + p1.getPlayerName() + " win!!" + reset);
     		
     }
+    
+    
+    
+    
+	public static int afficherDoubleGrille(Grille p1, Grille p2) {
+		
+		String espace = "                         ";
+		String espace2 = "                        ";
+		String espace3 = "                               ";
+		
+		Case currentCase = new Case();
+		
+		System.out.print(" "+ p1.getPlayerName());
+		System.out.print(espace3);
+		System.out.println(p2.getPlayerName());
+		
+		p1.affichePremiereLigneSansLn();
+		System.out.print(espace2);
+		p2.affichePremiereLigne();
+		
+		for (int i = 0; i<p1.getNbLigne(); i++) {
+				
+			p1.afficheRepereVertical(i);
 
-    
-    
-    
+			
+			
+			for (int k = 0; k <p1.getNbColonne(); k++) {
+				
+				if (p1.getGrille()[i][k].getIsReveal() !=  true)
+					currentCase.afficheCaractereCase('#',Color.RESET);
+				
+				else {
+					switch(p1.getGrille()[i][k].getContentCase()){
+						case VIDE:
+							currentCase.afficheCaractereCase('.',Color.RESET);
+						break;
+						case VAISSEAU:
+							currentCase.afficheCaractereCase('#',Color.ROUGE);
+						default:
+							break;
+					}
+				}
+			}
+				
+			System.out.print(espace);
+			p2.afficheRepereVertical(i);
+			
+			for (int k = 0; k <p2.getNbColonne(); k++) {
+				
+				if (p2.getGrille()[i][k].getIsReveal() !=  true)
+					currentCase.afficheCaractereCase('#',Color.RESET);
+				
+				else {
+					switch(p2.getGrille()[i][k].getContentCase()){
+						case VIDE:
+							currentCase.afficheCaractereCase('.',Color.RESET);
+						break;
+						case VAISSEAU:
+							currentCase.afficheCaractereCase('#',Color.ROUGE);
+						default:
+							break;
+					}
+				}
+			}
+			System.out.println();
+		}
+		return 0;
+	}
 }
+
 
 

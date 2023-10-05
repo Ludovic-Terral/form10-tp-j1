@@ -71,6 +71,8 @@ public class Vaisseau {
 		return _name;
 	}
 	
+
+	
 	public String getStatsVaisseau() {
 		String txt;
 		txt = "- Vaisseau de la classe " + getName() + " ";

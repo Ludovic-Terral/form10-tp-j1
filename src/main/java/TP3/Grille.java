@@ -65,6 +65,18 @@ public class Grille {
 		_listVaisseau.add(_n);
 		
 		
+
+		
+	}
+
+	
+	
+	public int getNbLigne() {
+		return LIGNE;
+	}
+	
+	public int getNbColonne() {
+		return COLONNE;
 	}
 		
 	public String getPlayerName() {
@@ -72,6 +84,10 @@ public class Grille {
 	}
 	public void setPlayerName(String name) {
 		_namePlayer = name;
+	}
+	
+	public Case[][] getGrille() {
+		return _grille;
 	}
 		
 	public int afficherGrille() {
@@ -102,7 +118,6 @@ public class Grille {
 		}
 		return 0;
 	}
-
 	
 	public void fillRepereHorizontal(){
 		for (int i=0; i< COLONNE; i++) {
@@ -128,6 +143,20 @@ public class Grille {
 		}
 		
 		System.out.println(reset); //
+	}
+	
+	public void affichePremiereLigneSansLn() {
+		
+		String greenColor = "\u001B[32m";
+		String reset = "\u001B[0m";
+		
+		System.out.print(greenColor + " ");
+		//String.format("%02d",i);
+		for (String i : _repereHorizontal) {
+			System.out.print(i);
+		}
+		
+		System.out.print(reset); //
 	}
 	
 	
@@ -216,6 +245,11 @@ public class Grille {
 	public int indexHorizontal(String position) {
 		
 		String s = position.substring(1);
+		
+	 	if(!s.matches("^[0-9]*$")) {
+	        return -1;
+	    }
+			
 		int c = Integer.parseInt(s);
 		
 		c = c -1;
@@ -391,7 +425,7 @@ public class Grille {
     
     public void afficheStatFlotte() {  
 	
-    	System.out.println("Flotte opérationnelle à " + calculStatFlotte() + "%");
+    	System.out.println(_namePlayer +": " + "flotte opérationnelle à " + calculStatFlotte() + "%");
     }
     	
    
@@ -437,6 +471,10 @@ public class Grille {
     
     
  public int handleInputTir(String input) {
+	 
+	 	if(!input.matches("^[a-zA-Z0-9]*$")) {
+	        return -1;
+	    }
 	 
 	 	input = input.toUpperCase();
     	
