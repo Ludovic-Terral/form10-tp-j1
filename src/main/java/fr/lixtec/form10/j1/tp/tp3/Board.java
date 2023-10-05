@@ -161,6 +161,7 @@ public class Board {
 		this.y = y;
 		
 		gotoOrigin();
+		// TODO: not well rendered if w > 10
 		for (int i = 0; i < w; i++)
 			print("   " + (i + 1));
 		gotoOrigin();
