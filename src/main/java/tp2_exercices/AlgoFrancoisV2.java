@@ -71,5 +71,3 @@ public class AlgoFrancoisV2 {
         return new String(tableau);
     }
 }
-
-//token github ::: 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
