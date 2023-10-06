@@ -1,11 +1,11 @@
 package fr.lixtec.form10.j1.tp.tp2;
 
 
-public class AlgoFrancois
-{
-    // ---------- static methods ----------
-    public static void main(String[] args)
-    {
+public class AlgoFrancois{
+	private static final int DECALAGE = 23;
+
+    
+    public static void main(String[] args){
         AlgoFrancois algoFrancois = new AlgoFrancois();
 
         String resultat = algoFrancois.encrypte("");
@@ -48,17 +48,52 @@ public class AlgoFrancois
     }
 
     
+    public String encrypte(String texte) {
+        StringBuilder resultat = new StringBuilder(); //chaine de caractère dynamique pour ajouter les prochains caractères
+        for (char lettre : texte.toCharArray()) {
+            if (Character.isLetter(lettre)) {
+            	char base;
+            	if (Character.isUpperCase(lettre)) {
+            	    base = 'A';
+            	} else {
+            	    base = 'a';
+            	}
+            	int lettreCode = (lettre - base + DECALAGE) % 26;
+            	char encrypteLettre = (char) (lettreCode + base);
+                resultat.append(encrypteLettre);
+            } else {
+                resultat.append(lettre);
+            }
+        }
 
-    // ---------- instance methods ----------
-    public String encrypte(String texte)
-    {
-        return "";
+        return resultat.toString();
     }
 
-  
     
-    public String decrypte(String texte)
-    {
-        return "";
+    
+    public String decrypte(String texteChiffre) {
+        StringBuilder resultat = new StringBuilder();
+
+        for (char lettre : texteChiffre.toCharArray()) {
+            if (Character.isLetter(lettre)) {
+            	char base;
+            	if (Character.isUpperCase(lettre)) {
+            	    base = 'A';
+            	} else {
+            	    base = 'a';
+            	}
+            	//System.out.println(lettre);
+            	//System.out.println(base);
+            	int lettreCode = (lettre - base - DECALAGE + 26) % 26;
+            	char decrypteLettre = (char) (lettreCode + base);
+            	//System.out.println(decrypteLettre);
+                resultat.append(decrypteLettre);
+            } else {
+                resultat.append(lettre);
+            }
+        }
+
+        return resultat.toString();
     }
+    
 }
