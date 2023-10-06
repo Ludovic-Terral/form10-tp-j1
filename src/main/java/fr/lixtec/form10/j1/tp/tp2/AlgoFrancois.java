@@ -51,18 +51,34 @@ public class AlgoFrancois
         System.out.println("Obtenu:"+resultat);        
     }
 
-    
+    // Décalage pour l'encodage et le décodage
+    private static final int SHIFT = 23;
 
-    // ---------- instance methods ----------
-    public String encrypte(String texte)
-    {
-        return "";
+    // Méthode pour effectuer le décalage d'une lettre selon l'algorithme de François
+    private static char shiftLetter(char letter, int shift) {
+        char base = Character.isUpperCase(letter) ? 'A' : 'a'; // ? ... : ... c'est un if else pour choisir la base
+        return (char) ((letter - base + shift) % 26 + base); // On vient définir la "valeur" du calcul dans (char)
+    }
+    
+    // Méthode pour appliquer le décalage à chaque lettre dans une chaîne de caractères
+    private static String applyShift(String message, int shift) {
+        char[] chars = message.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if (Character.isLetter(chars[i])) {
+                chars[i] = shiftLetter(chars[i], shift);
+            }
+        }
+        return new String(chars);
+    }
+    
+    // Méthode pour encoder une chaîne de caractères
+    public static String encrypte(String message) {
+        return applyShift(message, SHIFT);
     }
 
-  
-    
-    public String decrypte(String texte)
-    {
-        return "";
+    // Méthode pour décoder une chaîne de caractères
+    public static String decrypte(String message) {
+        // Utilise un décalage de -23 pour décoder (équivalent à un décalage de +3)
+        return applyShift(message, 3);
     }
 }
