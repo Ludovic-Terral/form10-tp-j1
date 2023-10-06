@@ -76,7 +76,7 @@ Enfin le jeu affichera le nom du joueur gagnant lorsqu'une des flottes est anéa
 * Pour éxecuter votre bataille galactique, vous devez passer les commandes suivantes dans votre terminal:
 
      cd <path_project>/bin
-     java fr.lixtec.form10.j1.tp3.BatailleSpatiale
+     java TP3.BatailleGalactique
      
 
        #####                          #                               ### 

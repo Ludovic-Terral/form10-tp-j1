@@ -15,8 +15,8 @@ public class AlgoFrancois {
                 resultat.append(c); 
             }
        
-    		return resultat.toString();
     	}
+    	return resultat.toString();
     }
 
     public static String decoder(String texte) {
@@ -39,7 +39,7 @@ public class AlgoFrancois {
         String texteEncode = encoder(texteOriginal);
         String texteDecode = decoder(texteEncode);
 
-        System.out.println("Texte original : " + texteOriginal);
+        System.out.println("Texte de base : " + texteOriginal);
         System.out.println("Texte encodé   : " + texteEncode);
         System.out.println("Texte décodé   : " + texteDecode);
     }

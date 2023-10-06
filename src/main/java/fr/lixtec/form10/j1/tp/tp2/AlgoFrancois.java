@@ -54,15 +54,39 @@ public class AlgoFrancois
     
 
     // ---------- instance methods ----------
+    private static final int DECALAGE = 23; 
+    
     public String encrypte(String texte)
     {
-        return "";
+    	StringBuilder resultat = new StringBuilder();
+    	for (char c : texte.toCharArray()) {
+    		if (Character.isLetter(c)) {
+                char base = Character.isLowerCase(c) ? 'a' : 'A';
+                char encodedChar = (char) (base + (c - base + DECALAGE) % 26);
+                resultat.append(encodedChar);
+            } else {
+                resultat.append(c); 
+            }
+       
+    	}
+    	return resultat.toString();
     }
 
   
     
     public String decrypte(String texte)
     {
-        return "";
+        StringBuilder resultat = new StringBuilder();
+        for (char c : texte.toCharArray()) {
+           
+        	if (Character.isLetter(c)) {
+                char base = Character.isLowerCase(c) ? 'a' : 'A';
+                char decodedChar = (char) (base + (c - base - DECALAGE + 26) % 26);
+                resultat.append(decodedChar);
+            } else {
+                resultat.append(c); 
+            }
+        }
+        return resultat.toString();
     }
 }
