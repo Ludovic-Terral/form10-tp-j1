@@ -114,14 +114,31 @@ public class BatailleNavale {
                 }
 
                 else {
-                    System.out.println("Orientation invalide. Réessayez.");
+                    System.out.println("Orientation invalide. Reessayez.");
                 }
             } else {
-                System.out.println("Coordonnées incorrectes. Réessayez.");
+                System.out.println("Coordonnees incorrectes. Reessayez.");
             }
         }
 
         afficherGrille(grille, joueur);
+    }
+
+    
+    public static int compterCasesRestantes(char[][] grilleDesNavires, char symboleVaisseau) {
+        int count = 0;
+        for (int i = 0; i < grilleDesNavires.length; i++) {
+            for (int j = 0; j < grilleDesNavires[i].length; j++) {
+                if (grilleDesNavires[i][j] == symboleVaisseau) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    public static double calculerPourcentage(int casesRestantes, int casesTotales) {
+        return ((double) casesRestantes / casesTotales) * 100.0;
     }
 
     
@@ -147,7 +164,7 @@ public class BatailleNavale {
         int colonne = colonneChar - 'A';
 
         if (grille[ligne][colonne] != '~') {
-            grille[ligne][colonne] = 'X';
+        	grille[ligne][colonne] = 'X'; //"\u001B[31mX\u001B[0m";
             return true;
         } else {
             grille[ligne][colonne] = 'O';
@@ -175,6 +192,40 @@ public class BatailleNavale {
         return false;
     }
     
+    public static char[][] genererGrilleAffichage(char[][] grille) {
+        char[][] grilleAffichage = new char[grille.length][grille[0].length];
+        for (int i = 0; i < grille.length; i++) {
+            for (int j = 0; j < grille[i].length; j++) {
+                if (grille[i][j] == 'X' || grille[i][j] == 'O') {
+                    grilleAffichage[i][j] = grille[i][j];
+                } else {
+                    grilleAffichage[i][j] = '~'; // Symbole caché
+                }
+            }
+        }
+        return grilleAffichage;
+    }
+
+    
+    
+    public static void afficherPourcentageDesBateaux(char[][] grilleDesNavires, String joueur) {
+        int universeRestantes = compterCasesRestantes(grilleDesNavires, 'U');
+        int sovereignRestantes = compterCasesRestantes(grilleDesNavires, 'S');
+        int ambassadeurRestantes = compterCasesRestantes(grilleDesNavires, 'A');
+        int constitutionRestantes = compterCasesRestantes(grilleDesNavires, 'C');
+        
+        int totalRestantes = universeRestantes + sovereignRestantes + ambassadeurRestantes + constitutionRestantes;
+        int totalCases = (3 * 2) + (2 * 2) + (3 * 1) + (3 * 1);
+        int pourcentage = (totalCases - totalRestantes) * 100 / totalCases;
+        
+        System.out.println("Flotte operationnelle restante");
+        System.out.println("- vaisseau de classe Universe operationnel : " + calculerPourcentage(universeRestantes, 3 * 2) + "%");
+        System.out.println("- vaisseau de classe Sovereign operationnel : " + calculerPourcentage(sovereignRestantes, 2 * 2) + "%");
+        System.out.println("- vaisseau de classe Ambassadeur operationnel : " + calculerPourcentage(ambassadeurRestantes, 3 * 1) + "%");
+        System.out.println("- vaisseau de classe Constitution operationnel : " + calculerPourcentage(constitutionRestantes, 3 * 1) + "%");
+    }
+
+    
     
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -190,8 +241,11 @@ public class BatailleNavale {
         initialiserGrille(grilleDesNaviresJoueur1);
         initialiserGrille(grilleDesNaviresJoueur2);
         
+        clrscr();
         placerVaisseaux(grilleJoueur1, grilleDesNaviresJoueur1, "Joueur 1");
+        clrscr();
         placerVaisseaux(grilleJoueur2, grilleDesNaviresJoueur2, "Joueur 2");
+        clrscr();
         
         afficherGrille(grilleJoueur1, "Joueur 1");
         afficherGrille(grilleJoueur2, "Joueur 2");
@@ -199,8 +253,9 @@ public class BatailleNavale {
         boolean joueur1Tour = true;
         
         while (true) {
-        	clrscr();
+        	
             String joueurActuel = joueur1Tour ? "Joueur 1" : "Joueur 2";
+            System.out.println("\n");
             System.out.println("Tour de " + joueurActuel);
             System.out.print("Entrez les coordonnees de tir (ex. H7) : ");
             String coordonnees = scanner.nextLine();
@@ -211,8 +266,10 @@ public class BatailleNavale {
             } else {
                 System.out.println("Loupe !");
             }
-            afficherGrille(grilleJoueur1, "Joueur 1");
-            afficherGrille(grilleJoueur2, "Joueur 2");
+            
+            char[][] grilleAffichage = genererGrilleAffichage(grilleCible);
+            afficherGrille(grilleAffichage, "Grille de votre adversaire");
+            afficherPourcentageDesBateaux(grilleCible, joueurActuel);
 
             if (estFlotteDetruite(grilleJoueur1)) {
                 System.out.println("Joueur 2 a gagné !");
