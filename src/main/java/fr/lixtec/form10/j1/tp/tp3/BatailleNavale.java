@@ -1,5 +1,6 @@
 package fr.lixtec.form10.j1.tp.tp3;
 
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -13,24 +14,28 @@ public class BatailleNavale {
         }
     }
     
-    public static void placerVaisseaux(char[][] grille, String joueur) {
+    public static void placerVaisseaux(char[][] grille, char[][] grilleDesNavires, String joueur) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Placement des vaisseaux pour " + joueur + ":");
-        placerVaisseauGrille(grille, joueur, "Ambassadeur", 'A', 3, 1);
-        placerVaisseauGrille(grille, joueur, "Universe", 'U', 3, 2);
-        placerVaisseauGrille(grille, joueur, "Sovereign", 'S', 2, 2);
-        placerVaisseauGrille(grille, joueur, "Constitution", 'C', 3, 1);       
+        placerVaisseauGrille(grille, grilleDesNavires, joueur, "Ambassadeur", 'A', 3, 1);
+        placerVaisseauGrille(grille, grilleDesNavires, joueur, "Universe", 'U', 3, 2);
+        placerVaisseauGrille(grille, grilleDesNavires, joueur, "Sovereign", 'S', 2, 2);
+        placerVaisseauGrille(grille, grilleDesNavires, joueur, "Constitution", 'C', 3, 1);       
     }
 
-    public static void placerVaisseauGrille(char[][] grille, String joueur, String nomVaisseau, char symbole, int longueur, int largeur) {
+    public static void placerVaisseauGrille(char[][] grille, char[][] grilleDesNavires, String joueur, String nomVaisseau, char symbole, int longueur, int largeur) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Placement du vaisseau " + nomVaisseau + " (" + longueur + "x" + largeur + ") pour " + joueur + ":");
 
         while (true) {
-            System.out.print("Entrez les coordonnées (ex. A1) : ");
+            System.out.print("Entrez les coordonnees (ex. A1) : ");
 
             String coordonnees = scanner.nextLine();
+            if (coordonnees.isEmpty()) {
+                System.out.println("Coordonnees vides. Reessayez.");
+                continue;
+            }
             char lettre = coordonnees.charAt(0);
             int chiffre = Integer.parseInt(coordonnees.substring(1));
             int colonne;
@@ -45,31 +50,69 @@ public class BatailleNavale {
                 // Orientation horizontale
                 if (orientation.equals("H")) {
                     if (colonne + longueur <= grille[0].length && ligne + largeur <= grille.length) {
+                        boolean collision = false;
                         for (int i = ligne; i < ligne + largeur; i++) {
                             for (int j = colonne; j < colonne + longueur; j++) {
-                                grille[i][j] = symbole;
+                                if (grilleDesNavires[i][j] != '~') {
+                                    collision = true;
+                                    break;
+                                }
+                            }
+                            if (collision) {
+                                break;
                             }
                         }
 
-                        break;
+                        if (!collision) {
+                            for (int i = ligne; i < ligne + largeur; i++) {
+                                for (int j = colonne; j < colonne + longueur; j++) {
+                                    grille[i][j] = symbole;
+                                    grilleDesNavires[i][j] = symbole;
+                                }
+                            }
+
+                            break;
+                        } else {
+                            System.out.println("Le vaisseau ne peut pas etre place ici. un vaisseau est deja present. Reessayez.");
+                        }
                     } else {
-                        System.out.println("Le vaisseau ne peut pas être placé ici. Réessayez.");
+                        System.out.println("Le vaisseau ne peut pas etre place ici. Reessayez.");
                     }
                 }
 
-                // Orientation Verticale
+                // Orientation verticale
                 else if (orientation.equals("V")) {
                     if (ligne + longueur <= grille.length && colonne + largeur <= grille[0].length) {
+                        boolean collision = false;
                         for (int i = ligne; i < ligne + longueur; i++) {
                             for (int j = colonne; j < colonne + largeur; j++) {
-                                grille[i][j] = symbole;
+                                if (grilleDesNavires[i][j] != '~') {
+                                    collision = true;
+                                    break;
+                                }
+                            }
+                            if (collision) {
+                                break;
                             }
                         }
-                        break;
+
+                        if (!collision) {
+                            for (int i = ligne; i < ligne + longueur; i++) {
+                                for (int j = colonne; j < colonne + largeur; j++) {
+                                    grille[i][j] = symbole;
+                                    grilleDesNavires[i][j] = symbole;
+                                }
+                            }
+
+                            break;
+                        } else {
+                            System.out.println("Le vaisseau ne peut pas etre place ici. Reessayez.");
+                        }
                     } else {
-                        System.out.println("Le vaisseau ne peut pas être placé ici. Réessayez.");
+                        System.out.println("Le vaisseau ne peut pas etre place ici. Reessayez.");
                     }
                 }
+
                 else {
                     System.out.println("Orientation invalide. Réessayez.");
                 }
@@ -128,7 +171,9 @@ public class BatailleNavale {
         }
     }
     
-    
+    public static boolean estFlotteDetruite(char[][] grille) {
+        return false;
+    }
     
     
     public static void main(String[] args) {
@@ -139,8 +184,14 @@ public class BatailleNavale {
         initialiserGrille(grilleJoueur1);
         initialiserGrille(grilleJoueur2);
         
-        placerVaisseaux(grilleJoueur1, "Joueur 1");
-        placerVaisseaux(grilleJoueur2, "Joueur 2");
+        char[][] grilleDesNaviresJoueur1 = new char[10][10];
+        char[][] grilleDesNaviresJoueur2 = new char[10][10];
+
+        initialiserGrille(grilleDesNaviresJoueur1);
+        initialiserGrille(grilleDesNaviresJoueur2);
+        
+        placerVaisseaux(grilleJoueur1, grilleDesNaviresJoueur1, "Joueur 1");
+        placerVaisseaux(grilleJoueur2, grilleDesNaviresJoueur2, "Joueur 2");
         
         afficherGrille(grilleJoueur1, "Joueur 1");
         afficherGrille(grilleJoueur2, "Joueur 2");
