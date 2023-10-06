@@ -2,25 +2,24 @@ package fr.lixtec.form10.j1.tp.tp2;
 import java.util.Scanner;
 
 public class bataille {
-    private String[][] grille = new String[8][10];
-    private String[][] grilleMemoire = new String[8][10]; // Grille de mémoire pour enregistrer les positions des bateaux
+    private static String[][] grille = new String[8][10];
+    private static String[][] grilleJoueur1 = new String[8][10];
+    private static String[][] grilleMemoire = new String[8][10]; // Grille de mémoire pour enregistrer les positions des bateaux
     private int croixPlacees = 0; // Compteur de croix placées
+    
 
     public void construireGrille() {
         // Remplissage de la grille avec des cases vides
         for (int ligne = 0; ligne < 8; ligne++) {
             for (int colonne = 0; colonne < 10; colonne++) {
-                grille[ligne][colonne] = "|_|";
+            	grille[ligne][colonne] = "|_|";
+                grilleMemoire[ligne][colonne] = "|_|";
+                grilleJoueur1[ligne][colonne] = "|_|"; // Initialise la grille du joueur 1
             }
         }
 
-        // Initialisation de la grille de mémoire avec des cases vides
-        for (int ligne = 0; ligne < 8; ligne++) {
-            for (int colonne = 0; colonne < 10; colonne++) {
-                grilleMemoire[ligne][colonne] = "|_|";
-            }
-        }
-    }
+   }
+    
 
     public void afficherGrille(String[][] grilleAUtiliser) {
         // Affichage des lettres pour numéroter les colonnes
@@ -47,7 +46,6 @@ public class bataille {
     public void placerBateau(String bateau) {
         Scanner scanner = new Scanner(System.in);
 
-        // Boucle pour permettre au joueur de placer plusieurs croix
             // Afficher la grille actuelle avec les lettres des colonnes
             afficherGrille(grille);
 
@@ -65,8 +63,6 @@ public class bataille {
                 // Marquer la case avec une croix dans la grille principale
                 grille[ligneChoisie][colonneChoisie - 'A'] = "|X|";
 
-                // Marquer la case avec une croix dans la grille de mémoire
-                grilleMemoire[ligneChoisie][colonneChoisie - 'A'] = "|X|";
     
                 // Impact sur les cases adjacentes (gauche, droite, haut, bas, diagonales)
                 if (bateau.equals("Universe"))
@@ -123,72 +119,67 @@ public class bataille {
             }
             
     }
-    public void nettoyerGrille() {
-        // Nettoyer la grille principale
+
+    public void sauvegarderGrille() {
         for (int ligne = 0; ligne < 8; ligne++) {
             for (int colonne = 0; colonne < 10; colonne++) {
-                grille[ligne][colonne] = "|_|";
+                if (grille[ligne][colonne].equals("|X|")) {
+                    grilleMemoire[ligne][colonne] = "|X|";
+                }
             }
         }
-
-        // Réinitialiser la grille de mémoire pour effacer tous les "X"
-        for (int ligne = 0; ligne < 8; ligne++) {
-            for (int colonne = 0; colonne < 10; colonne++) {
-                grilleMemoire[ligne][colonne] = "|_|";
-            }
-        }
-
-        // Afficher un message pour informer que la grille a été nettoyée
-        System.out.println("La grille a été nettoyée, mais les positions des bateaux sont en mémoire.");
     }
 
     
-    public void tirrermissile() {
+    public int tirrermissile(String[][] grilleMemoire, String[][] grilleJoueur, int score) {
+        // Demander au joueur de rentrer des coordonnées
         Scanner scanner = new Scanner(System.in);
-
-        // Afficher la grille actuelle avec les lettres des colonnes
-        afficherGrille(grille);
-
-        // Demande au joueur de tirer un missile
-        System.out.println("Entrez les coordonnées pour tirer un missile (ex: A3) ou tapez 'q' pour quitter :");
+        System.out.println("Entrez les coordonnées du missile (ex: A3) :");
         String coordonnees = scanner.next();
 
-        // Vérifier si le joueur veut quitter
-        if (coordonnees.equalsIgnoreCase("q")) {
-            System.out.println("Vous avez quitté le jeu.");
-            System.exit(0);
-        }
-
-        // Analyse des coordonnées
+        // Analyser les coordonnées
         char colonneChoisie = coordonnees.charAt(0);
-        int ligneChoisie = Integer.parseInt(coordonnees.substring(1)) - 1; // Soustraire 1 car les lignes commencent à 1
+        int ligneChoisie = Integer.parseInt(coordonnees.substring(1)) - 1;
 
-        // Vérifier si des croix sont présentes à ces coordonnées dans la grille de mémoire
+        // Vérifier si les coordonnées sont valides
         if (ligneChoisie >= 0 && ligneChoisie < 8 && colonneChoisie >= 'A' && colonneChoisie <= 'J') {
+            // Vérifier si la case visée contient une croix dans la grille de mémoire
             if (grilleMemoire[ligneChoisie][colonneChoisie - 'A'].equals("|X|")) {
-                System.out.println("Vous avez touché une croix ! Vous gagnez 1 point.");
-                // Incrémenter le score du joueur ici
+                grilleJoueur[ligneChoisie][colonneChoisie - 'A'] = "|X|";
+                System.out.println("Bravo ! Vous avez touché une croix !");
+                score = score + 1;
             } else {
-                System.out.println("Raté ! Aucune croix à cet endroit.");
+                grilleJoueur[ligneChoisie][colonneChoisie - 'A'] = "|O|";
+                System.out.println("Raté ! Il n'y a pas de croix à cet endroit.");
             }
         } else {
             System.out.println("Coordonnées invalides. Veuillez entrer des coordonnées valides.");
         }
+
+        return score; // Renvoyer la valeur du score mise à jour
     }
 
     public static void main(String[] args) {
+        int scoreJoueur1 = 0;
         bataille bataille = new bataille();
         bataille.construireGrille();
         bataille.placerBateau("Universe");
-       bataille.placerBateau("Sovereign");
-       // bataille.placerBateau("Ambassadeur");
-      //  bataille.placerBateau("Ambassadeur");
-       // bataille.placerBateau("navette");
-        bataille.nettoyerGrille();
-        bataille.afficherGrille(bataille.grilleMemoire); // Afficher la grille de mémoire
-        while (true)
-        {
-        	bataille.tirrermissile();
+        bataille.placerBateau("Sovereign");
+        // bataille.placerBateau("Ambassadeur");
+        // bataille.placerBateau("Ambassadeur");
+        // bataille.placerBateau("navette");
+        bataille.sauvegarderGrille();
+        
+        while (true) {
+            scoreJoueur1 = bataille.tirrermissile(grilleMemoire, grilleJoueur1, scoreJoueur1); // Mettez à jour le score directement
+            System.out.println("Score Joueur 1 : " + scoreJoueur1); // Affichez le score mis à jour
+            bataille.afficherGrille(grilleJoueur1);
+            if (scoreJoueur1 == 4)
+            {
+            	 System.out.println("le joueur 1 à gagné ");
+            	 break;
+            }
+            
         }
     }
 }
