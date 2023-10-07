@@ -152,7 +152,12 @@ public class BatailleNavale {
         for (int i = 0; i < grille.length; i++) {
             System.out.print(lettre + " ");
             for (int j = 0; j < grille[i].length; j++) {
-                System.out.print(grille[i][j] + " ");
+            	char cellule = grille[i][j];
+                if (cellule == 'X') {
+                    System.out.print("\u001B[31mX\u001B[0m ");
+                } else {
+                    System.out.print(cellule + " ");
+                }
             }
             System.out.println();
             lettre++;
@@ -165,11 +170,11 @@ public class BatailleNavale {
         int ligne = coordonnees.charAt(1) - '1';
         int colonne = colonneChar - 'A';
 
-        if (grille[ligne][colonne] != '~') {
-        	grille[ligne][colonne] = 'X'; //"\u001B[31mX\u001B[0m";
+        if (grille[colonne][ligne] != '~') {
+        	grille[colonne][ligne] = 'X';
             return true;
         } else {
-            grille[ligne][colonne] = 'O';
+            grille[colonne][ligne] = 'O';
             return false;
         }
     }
@@ -190,9 +195,7 @@ public class BatailleNavale {
         }
     }
     
-    public static boolean estFlotteDetruite(char[][] grille) {
-        return false;
-    }
+   
     
     public static char[][] genererGrilleAffichage(char[][] grille) {
         char[][] grilleAffichage = new char[grille.length][grille[0].length];
@@ -201,7 +204,7 @@ public class BatailleNavale {
                 if (grille[i][j] == 'X' || grille[i][j] == 'O') {
                     grilleAffichage[i][j] = grille[i][j];
                 } else {
-                    grilleAffichage[i][j] = '~'; // Symbole caché
+                    grilleAffichage[i][j] = '~';
                 }
             }
         }
@@ -216,16 +219,24 @@ public class BatailleNavale {
         int ambassadeurRestantes = compterCasesRestantes(grilleDesNavires, 'A');
         int constitutionRestantes = compterCasesRestantes(grilleDesNavires, 'C');
         
-        int totalRestantes = universeRestantes + sovereignRestantes + ambassadeurRestantes + constitutionRestantes;
-        int totalCases = (3 * 2) + (2 * 2) + (3 * 1) + (3 * 1);
-        int pourcentage = (totalCases - totalRestantes) * 100 / totalCases;
-        
         System.out.println("Flotte operationnelle restante");
         System.out.println("- vaisseau de classe Universe operationnel : " + calculerPourcentage(universeRestantes, 3 * 2) + "%");
         System.out.println("- vaisseau de classe Sovereign operationnel : " + calculerPourcentage(sovereignRestantes, 2 * 2) + "%");
         System.out.println("- vaisseau de classe Ambassadeur operationnel : " + calculerPourcentage(ambassadeurRestantes, 3 * 1) + "%");
         System.out.println("- vaisseau de classe Constitution operationnel : " + calculerPourcentage(constitutionRestantes, 3 * 1) + "%");
     }
+    
+    public static int calculerPourcentageTotal(char[][] grilleDesNavires) {
+        int universeRestantes = compterCasesRestantes(grilleDesNavires, 'U');
+        int sovereignRestantes = compterCasesRestantes(grilleDesNavires, 'S');
+        int ambassadeurRestantes = compterCasesRestantes(grilleDesNavires, 'A');
+        int constitutionRestantes = compterCasesRestantes(grilleDesNavires, 'C');
+
+        int totalRestantes = universeRestantes + sovereignRestantes + ambassadeurRestantes + constitutionRestantes;
+        int totalCases = (3 * 2) + (2 * 2) + (3 * 1) + (3 * 1);
+        return totalRestantes * 100 / totalCases;
+    }
+
 
     
     
@@ -273,11 +284,9 @@ public class BatailleNavale {
             afficherGrille(grilleAffichage, "Grille de votre adversaire");
             afficherPourcentageDesBateaux(grilleCible, joueurActuel);
 
-            if (estFlotteDetruite(grilleJoueur1)) {
-                System.out.println("Joueur 2 a gagné !");
-                break;
-            } else if (estFlotteDetruite(grilleJoueur2)) {
-                System.out.println("Joueur 1 a gagné !");
+            int pourcentageTotal = calculerPourcentageTotal(grilleCible);
+            if (pourcentageTotal == 0) {
+                System.out.println(joueurActuel + " a gagné !");
                 break;
             }
             
