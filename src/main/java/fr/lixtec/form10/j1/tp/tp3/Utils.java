@@ -24,7 +24,7 @@ public final class Utils {
 	}
 	
 	public static void cls() {
-		System.out.print(ansi().eraseScreen().cursor(0, 0));
+		System.out.print(ansi().eraseScreen().cursor(1, 1));
 	}
 	
 	public static void print(String msg) {
@@ -33,6 +33,10 @@ public final class Utils {
 	
 	public static void print(char c) {
 		System.out.print(c);
+	}
+	
+	public static void print(int i) {
+		System.out.println(i);
 	}
 	
 	public static void print(Ansi a) {
