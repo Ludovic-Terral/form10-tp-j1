@@ -34,10 +34,16 @@ public class BatailleNavale {
             System.out.print("Entrez les coordonnees (ex. A1) : ");
 
             String coordonnees = scanner.nextLine();
-            if (coordonnees.isEmpty()) {
-                System.out.println("Coordonnees vides. Reessayez.");
-                continue;
-            }
+            
+            
+            
+            try {
+            
+	            if (coordonnees.isEmpty()) {
+	            	throw new IllegalArgumentException("Coordonnees vides. Reessayez.");
+	              
+	            }
+            
             char lettre = coordonnees.charAt(0);
             int chiffre = Integer.parseInt(coordonnees.substring(1));
             int colonne;
@@ -118,9 +124,19 @@ public class BatailleNavale {
                 else {
                     System.out.println("Orientation invalide. Reessayez.");
                 }
-            } else {
-                System.out.println("Coordonnees incorrectes. Reessayez.");
+            } 
+
+            else {
+            	throw new IllegalArgumentException("Coordonnees incorrectes. Reessayez.");
             }
+            } catch (NumberFormatException e) {
+                System.out.println("Erreur : Vous devez entrer un chiffre valide pour les coordonnees. Reessayez.");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Erreur : " + e.getMessage());
+            }
+            
+            
+            
         }
 
         afficherGrille(grille, joueur);
