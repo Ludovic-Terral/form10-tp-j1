@@ -1,4 +1,4 @@
-package fr.lixtec.form10.j1.tp.tp2;
+package fr.lixtec.form10.j1.tp.tp2.TP2;
 import java.util.Dictionary;
 import java.util.Hashtable;
 

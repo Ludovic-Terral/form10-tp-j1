@@ -1,4 +1,4 @@
-package fr.lixtec.form10.j1.tp.tp2;
+package fr.lixtec.form10.j1.tp.tp2.TP1;
 
 public class BoiteDeVitesses {
 	private int vitesse = 0;
