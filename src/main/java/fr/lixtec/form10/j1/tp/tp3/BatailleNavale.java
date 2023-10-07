@@ -16,6 +16,8 @@ public class BatailleNavale {
     
     public static void placerVaisseaux(char[][] grille, char[][] grilleDesNavires, String joueur) {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Voici votre grille");
+        afficherGrille(grille, joueur);
         System.out.println("Placement des vaisseaux pour " + joueur + ":");
         placerVaisseauGrille(grille, grilleDesNavires, joueur, "Ambassadeur", 'A', 3, 1);
         placerVaisseauGrille(grille, grilleDesNavires, joueur, "Universe", 'U', 3, 2);
@@ -48,7 +50,7 @@ public class BatailleNavale {
                 String orientation = scanner.next().toUpperCase();
 
                 // Orientation horizontale
-                if (orientation.equals("H")) {
+                if (orientation.equals("V")) {
                     if (colonne + longueur <= grille[0].length && ligne + largeur <= grille.length) {
                         boolean collision = false;
                         for (int i = ligne; i < ligne + largeur; i++) {
@@ -66,8 +68,8 @@ public class BatailleNavale {
                         if (!collision) {
                             for (int i = ligne; i < ligne + largeur; i++) {
                                 for (int j = colonne; j < colonne + longueur; j++) {
-                                    grille[i][j] = symbole;
-                                    grilleDesNavires[i][j] = symbole;
+                                    grille[j][i] = symbole;
+                                    grilleDesNavires[j][i] = symbole;
                                 }
                             }
 
@@ -81,7 +83,7 @@ public class BatailleNavale {
                 }
 
                 // Orientation verticale
-                else if (orientation.equals("V")) {
+                else if (orientation.equals("H")) {
                     if (ligne + longueur <= grille.length && colonne + largeur <= grille[0].length) {
                         boolean collision = false;
                         for (int i = ligne; i < ligne + longueur; i++) {
@@ -99,8 +101,8 @@ public class BatailleNavale {
                         if (!collision) {
                             for (int i = ligne; i < ligne + longueur; i++) {
                                 for (int j = colonne; j < colonne + largeur; j++) {
-                                    grille[i][j] = symbole;
-                                    grilleDesNavires[i][j] = symbole;
+                                    grille[j][i] = symbole;
+                                    grilleDesNavires[j][i] = symbole;
                                 }
                             }
 
@@ -232,6 +234,8 @@ public class BatailleNavale {
         
         char[][] grilleJoueur1 = new char[10][10];
         char[][] grilleJoueur2 = new char[10][10];
+        
+        
         initialiserGrille(grilleJoueur1);
         initialiserGrille(grilleJoueur2);
         
@@ -247,8 +251,6 @@ public class BatailleNavale {
         placerVaisseaux(grilleJoueur2, grilleDesNaviresJoueur2, "Joueur 2");
         clrscr();
         
-        afficherGrille(grilleJoueur1, "Joueur 1");
-        afficherGrille(grilleJoueur2, "Joueur 2");
         
         boolean joueur1Tour = true;
         
