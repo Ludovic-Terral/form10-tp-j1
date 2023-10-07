@@ -93,11 +93,20 @@ public class Board {
 		private void drawContent(boolean hidden) {
 			if (hidden) {
 				if (reveal)
-					print(c == ' ' ? 'L' : 'T');
+					print(c == ' '
+						? ansi().fg(Color.RED).a('F').reset()
+						: ansi().fg(Color.GREEN).a('S').reset()
+					);
 				else
 					print(' ');
-			} else
+			} else {
+				if (reveal)
+					print(ansi().fg(Color.RED));
+				else 
+					print(ansi().fg(Color.GREEN));
 				print(c);
+				print(ansi().reset());
+			}
 		}
 		
 		public void center() {
