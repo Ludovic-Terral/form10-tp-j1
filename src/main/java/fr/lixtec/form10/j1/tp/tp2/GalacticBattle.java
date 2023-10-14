@@ -25,10 +25,14 @@ public class GalacticBattle {
             clrscr();
         }
 
-        while (players[invert(currentPlayer)].hp.totalHpPercent() > 0) {
-            System.out.format("Joueur %d. Veuillez choisir une case sur laquelle tirer (entrer rangée puis colonne).\n");
+        boolean playsTwice = false;
+        while (players[invert(currentPlayer)].hp.totalHpPercent() > 0
+            && players[currentPlayer].hp.totalHpPercent() > 0) {
+            System.out.format("========\nJOUEUR %d\n========\n", currentPlayer);
+            players[currentPlayer].hp.print();
+            System.out.format("Joueur %d. Veuillez choisir une case sur laquelle tirer (entrer rangée puis colonne).\n", currentPlayer);
             int row = s.next(".").charAt(0) - 'a';
-            if (!(0 <= row && col <= 7)) {
+            if (!(0 <= row && row <= 7)) {
                 System.out.println("Placement invalide. Veuillez réessayer.");
                 continue;
             }
@@ -37,9 +41,67 @@ public class GalacticBattle {
                 System.out.println("Placement invalide. Veuillez réessayer.");
                 continue;
             }
-            // manque de temps
+
+            if (players[invert(currentPlayer)].hits.get()[col][row] != 0) {
+                System.out.println("Vous aviez déjà tiré ici.");
+                players[invert(currentPlayer)].hits.print();
+                
+                // wait for enter key
+                try { System.in.read(); } catch (IOException e) { }
+                clrscr();
+
+                continue;
+            }
+
+            char shipClass = players[invert(currentPlayer)].ships.get()[col][row];
+            if (shipClass != 0) {
+                switch(shipClass) {
+                    case 'u':
+                        players[invert(currentPlayer)].hits.hit((--players[invert(currentPlayer)].hp.uHp > 0) ? 't' : 'd', col, row);
+                        break;
+                    case 's':
+                        players[invert(currentPlayer)].hits.hit((--players[invert(currentPlayer)].hp.sHp > 0) ? 't' : 'd', col, row);
+                        break;
+                    case 'a':
+                        players[invert(currentPlayer)].hits.hit((--players[invert(currentPlayer)].hp.aHp > 0) ? 't' : 'd', col, row);
+                        break;
+                    case 'c':
+                        players[invert(currentPlayer)].hits.hit((--players[invert(currentPlayer)].hp.cHp > 0) ? 't' : 'd', col, row);
+                        break;
+                    case 'n':
+                        players[invert(currentPlayer)].hits.hit((--players[invert(currentPlayer)].hp.nHp > 0) ? 't' : 'd', col, row);
+                        break;
+                }
+                if (players[invert(currentPlayer)].hp.uHp > 0) {
+                    System.out.println("touché");
+                }
+                else {
+                    System.out.println("désintégré");
+                }
+                players[invert(currentPlayer)].hits.print();
+                if (!playsTwice) {
+                    currentPlayer = invert(currentPlayer);
+                    playsTwice = true;
+                }
+                else {
+                    playsTwice = false;
+                }
+            }
+            else {
+
+                players[invert(currentPlayer)].hits.hit('l', col, row);
+                System.out.println("loupé");
+                players[invert(currentPlayer)].hits.print();
+                currentPlayer = invert(currentPlayer);
+            }
+
+            // wait for enter key
+            try { System.in.read(); } catch (IOException e) { }
+            clrscr();
         }
         
+        System.out.format("Le joueur %d a gagné !", players[0].hp.totalHpPercent() > 0 ? 0 : 1);
+
         s.close();
     }
 
@@ -50,7 +112,7 @@ public class GalacticBattle {
                 player,
                 className);
             int row = s.next(".").charAt(0) - 'a';
-            if (!(0 <= row && col <= 7)) {
+            if (!(0 <= row && row <= 7)) {
                 System.out.println("Placement invalide. Veuillez réessayer.");
                 continue;
             }
@@ -170,14 +232,25 @@ class HitGrid { // grid of where there were attacks
             return false;
         }
         switch (status) {
-            case 'h': // hit
-            case 'm': // miss
-            case 's': // sink
+            case 't': // hit
+            case 'l': // miss
+            case 'd': // sink
                 content[column][row] = status;
                 return true;
             
             default:
                 return false;
+        }
+    }
+    
+    public void print() {
+        System.out.println("  1 2 3 4 5 6 7 8 9 10");
+        for (int row = 0; row < 8; row++) {
+            System.out.format("%c", row+'a');
+            for (int col = 0; col < 10; col++) {
+                System.out.format(" %c", content[col][row]);
+            }
+            System.out.println();
         }
     }
 }
@@ -203,6 +276,14 @@ class ShipData {
     public int totalHpPercent() { 
         return 100 * (uHp+sHp+aHp+cHp+nHp)
                    / (uMaxHp+sMaxHp+aMaxHp+cMaxHp+nMaxHp);
+    }
+
+    public void print() {
+        System.out.format("Vaisseau de classe Universe %s%d%%%s\n", uHp > 0 ? "opérationnel à " : "désintégré (", uHpPercent(), uHp > 0 ? "" : ")");
+        System.out.format("Vaisseau de classe Sovereign %s%d%%%s\n", sHp > 0 ? "opérationnel à " : "désintégré (", sHpPercent(), sHp > 0 ? "" : ")");
+        System.out.format("Vaisseau de classe Ambassadeur %s%d%%%s\n", aHp > 0 ? "opérationnel à " : "désintégré (", aHpPercent(), aHp > 0 ? "" : ")");
+        System.out.format("Vaisseau de classe Constitution %s%d%%%s\n", cHp > 0 ? "opérationnel à " : "désintégré (", cHpPercent(), cHp > 0 ? "" : ")");
+        System.out.format("Navette %s%d%%%s\n", nHp > 0 ? "opérationnel à " : "désintégré (", nHpPercent(), nHp > 0 ? "" : ")");
     }
 }
 
