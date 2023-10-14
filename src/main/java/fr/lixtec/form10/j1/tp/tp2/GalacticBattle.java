@@ -1,6 +1,9 @@
+package fr.lixtec.form10.j1.tp.tp2;
+
+import java.io.IOException;
 import java.util.Scanner;
 
-public class Main {
+public class GalacticBattle {
     public static void main(String[] args) {
         Player[] players = new Player[2];
                  players[0] = new Player();
@@ -9,39 +12,94 @@ public class Main {
         
         int currentPlayer = 0;
         for (int i=0; i<2; i++) {
-            while (true) {
-                System.out.format(
-                    "Joueur %d. Veuillez placer votre vaisseau de classe Universe en donnant la colonne, puis la rangé, puis soit v soit h pour le placer verticalement ou horizontalement.\n",
-                    i);
-                int col = s.nextInt();
-                int row = s.nextInt();
-                char direction = s.next(".").charAt(0);
-                boolean vertical;
-                switch(direction) {
-                    case 'v':
-                    case 'V':
-                        vertical = true;
-                        break;
-                    
-                    case 'h':
-                    case 'H':
-                        vertical = false;
-                        break;
-                        
-                    default:
-                        continue;
-                }
-                if (players[i].ships.placeShip('u', col, row, vertical)) {
-                    break;
-                }
-            }
+            promptAndPlaceShip(players, i, s, "Universe", 'u');
+            players[i].ships.print();
+            promptAndPlaceShip(players, i, s, "Sovereign", 's');
+            players[i].ships.print();
+            promptAndPlaceShip(players, i, s, "Ambassadeur", 'a');
+            players[i].ships.print();
+            promptAndPlaceShip(players, i, s, "Constitution", 'c');
+            players[i].ships.print();
+            promptAndPlaceShip(players, i, s, "Navette", 'n');
+            players[i].ships.print();
+            clrscr();
         }
+
         while (players[invert(currentPlayer)].hp.totalHpPercent() > 0) {
+            System.out.format("Joueur %d. Veuillez choisir une case sur laquelle tirer (entrer rangée puis colonne).\n");
+            int row = s.next(".").charAt(0) - 'a';
+            if (!(0 <= row && col <= 7)) {
+                System.out.println("Placement invalide. Veuillez réessayer.");
+                continue;
+            }
+            int col = s.nextInt() - 1;
+            if (!(0 <= col && col <= 9)) {
+                System.out.println("Placement invalide. Veuillez réessayer.");
+                continue;
+            }
+            // manque de temps
+        }
+        
+        s.close();
+    }
+
+	private static void promptAndPlaceShip(Player[] players, int player, Scanner s, String className, char classType) {
+        while (true) {
+            System.out.format(
+                "Joueur %d. Veuillez placer votre vaisseau de classe %s en donnant la rangée (a-h, en minuscule), puis la colonne (1-10), puis soit v soit h pour le placer verticalement ou horizontalement. (le tout séparé par des espaces)\n",
+                player,
+                className);
+            int row = s.next(".").charAt(0) - 'a';
+            if (!(0 <= row && col <= 7)) {
+                System.out.println("Placement invalide. Veuillez réessayer.");
+                continue;
+            }
+            int col = s.nextInt() - 1;
+            if (!(0 <= col && col <= 9)) {
+                System.out.println("Placement invalide. Veuillez réessayer.");
+                continue;
+            }
+            char direction = s.next(".").charAt(0);
+            boolean vertical;
+            switch(direction) {
+                case 'v':
+                case 'V':
+                    vertical = true;
+                    break;
+                
+                case 'h':
+                case 'H':
+                    vertical = false;
+                    break;
+                    
+                default:
+                    continue;
+            }
             
+            if (players[player].ships.placeShip(classType, col, row, vertical)) {
+                break;
+            }
+            else {
+                System.out.println("Placement invalide. Veuillez réessayer.");
+            }
         }
     }
     
     private static int invert(int x) { return x==0 ? 1 : 0; }
+
+    public static void clrscr()
+    {
+        try
+        {
+            if (System.getProperty("os.name").contains("Windows"))
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            else Runtime.getRuntime().exec("clear");
+        }
+        catch (IOException | InterruptedException ex)
+        {
+            // erreur canard. C'est mal
+        }
+    }
 }
 
 class ShipGrid { // contains ship info
