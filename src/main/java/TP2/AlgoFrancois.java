@@ -1,37 +1,59 @@
 package TP2;
 
-public class AlgoFrancois {
+public class AlgoFrancois
+{
+    public static void main(String[] args)
+    {
+        AlgoFrancois algoFrancois = new AlgoFrancois();
 
-    public static String chiffrer(String texte, int decalage) {
-        char[] tableau = texte.toCharArray();
-        StringBuilder texteChiffre = new StringBuilder();
+        String resultat = algoFrancois.encrypte("");
+        System.out.println("".equals(resultat));
 
-        for (char c : tableau) {
-            if (Character.isLetter(c)) {
-                char base = Character.isUpperCase(c) ? 'A' : 'a';
-                texteChiffre.append((char) (base + (c - base + decalage) % 26));
-            } else {
-                texteChiffre.append(c);
-            }
-        }
+        // étape 2
+        resultat = algoFrancois.encrypte("az");
+        System.out.println("Attendu: xw - Obtenu:"+resultat+" - Verifie:"+"xw".equals(resultat));
 
-        return texteChiffre.toString();
+        // étape 3
+        resultat = algoFrancois.encrypte("AZ");
+        System.out.println("Attendu: XW - Obtenu:"+resultat+" - Verifie:"+"XW".equals(resultat));
+
+        // étape 4
+        resultat = algoFrancois.encrypte("1,000.00");
+        System.out.println("Attendu: 1,000.00 - Obtenu:"+resultat+" - Verifie:"+"1,000.00".equals(resultat));
+
+        // étape 5
+        String phrase = "In cryptography, this cipher is one "
+                        + "of the simplest and most widely known "
+                        + "encryption techniques.";
+        resultat = algoFrancois.encrypte(phrase);
+
+        String phraseAttendue = "Fk zovmqldoxmev, qefp zfmebo fp lkb "
+                                + "lc qeb pfjmibpq xka jlpq tfabiv hkltk "
+                                + "bkzovmqflk qbzekfnrbp.";
+        System.out.println("Obtenu:"+resultat+" - Verifie:"+phraseAttendue.equals(resultat));
+        
+        //étape 6
+        resultat = algoFrancois.decrypte("xw");
+        System.out.println("Attendu: az - Obtenu:"+resultat+" - Verifie:"+"az".equals(resultat));
+        
+        //étape 7
+        resultat = algoFrancois.decrypte("XW");
+        System.out.println("Attendu: XW - Obtenu:"+resultat+" - Verifie:"+"AZ".equals(resultat));
+
+        //étape 8
+        resultat = algoFrancois.decrypte("Gb prfp xr ylrq ab jbp mbfkbp xsbz zbq xidl.");
+        System.out.println("Obtenu:"+resultat);        
     }
 
-    public static String dechiffrer(String texteChiffre, int decalage) {
-        return chiffrer(texteChiffre, 26 - decalage);
+    public String encrypte(String texte)
+    {
+        return "";
     }
 
-    public static void main(String[] args) {
-        String texte = "In cryptography, a cipher is one of the simplest and most widely known encryption techniques.";
-        int decalage = 23;
-
-        String texteChiffre = chiffrer(texte, decalage);
-        System.out.println("Texte chiffré :");
-        System.out.println(texteChiffre);
-
-        String texteDechiffre = dechiffrer(texteChiffre, decalage);
-        System.out.println("\nTexte déchiffré :");
-        System.out.println(texteDechiffre);
+  
+    
+    public String decrypte(String texte)
+    {
+        return "";
     }
 }
