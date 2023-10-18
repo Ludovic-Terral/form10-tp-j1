@@ -16,13 +16,17 @@ public class Ascenseur {
         return etage;
     }
 
-    private static void monterA(int etage) {
-        System.out.println("L'ascenseur monte a l'etage " + etage);
+	private static void monterA(int etage) {
+        for (int i = etageActuel + 1; i <= etage; i++) {
+            System.out.println("L'ascenseur est à l'étage intermédiaire " + i);
+        }
         etageActuel = etage;
     }
 
-    private static void descendreA(int etage) {
-        System.out.println("L'ascenseur descend a l'etage " + etage);
+	private static void descendreA(int etage) {
+        for (int i = etageActuel - 1; i >= etage; i--) {
+            System.out.println("L'ascenseur est à l'étage intermédiaire " + i);
+        }
         etageActuel = etage;
     }
 
@@ -34,6 +38,8 @@ public static void main(String[] args) {
     System.out.println("L'ascenseur est a l'etage " + etageActuel);
 
     int etageAppel = 5;
+    System.out.println("L'ascenseur est appelé à l'étage " + etageAppel);
+
     int nouvelEtage = Ascenseur.appelerDepuis(etageAppel);
     System.out.println("L'ascenseur est maintenant a l'etage " + nouvelEtage);
     
