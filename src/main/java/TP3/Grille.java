@@ -5,10 +5,6 @@ class Grille {
 	private final static int ROWS = 9;
 	private final static int COLUMNS = 23;
 	public Case[][] grille = new Case[ROWS][COLUMNS]; 
-	/*
-	 * on déclare un tableau de 9 ligne soit de A à H plus 1 pour le coin gauche et 11 columns soit de 1 à 10 
-	 * plus 1 pour le coin gauche
-	 */
 	
 	Grille() {
 		setgrille();

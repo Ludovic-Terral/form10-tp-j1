@@ -2,7 +2,7 @@ package TP3;
 
 class Joueur {
 
-	//pour chaque joeuur 2 grille
+	//pour chaque joueur 2 grille
 	private Grille tir = new Grille();
 	private Grille navire = new Grille();
 	private String nom;
